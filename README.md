@@ -10,7 +10,7 @@
 
 
 ```
-Espanol:
+Español
 ```
 # Ejecutar en desarrollo
 
