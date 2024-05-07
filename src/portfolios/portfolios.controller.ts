@@ -11,8 +11,10 @@ import {
   HttpCode,
   HttpStatus,
   Put,
+  Query,
 } from '@nestjs/common';
 import { ParseMongoIdpipe } from 'src/common/pipes/parse-mongo-idpipe/parse-mongo-idpipe.pipe';
+import { PaginationDto } from 'src/common/dto/Paginationdto';
 
 @Controller('portfolios')
 export class PortfoliosController {
@@ -25,8 +27,9 @@ export class PortfoliosController {
   }
 
   @Get()
-  findAll() {
-    return this.portfoliosService.findAll();
+  async findAllPortfolios(@Query() paginationDto: PaginationDto) {
+    // console.log({ paginationDto });
+    return this.portfoliosService.findAllPortfolios(paginationDto);
   }
 
   @Get(':term')

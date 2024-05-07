@@ -9,13 +9,21 @@ import { CreatePortfolioDto } from './dto/create-portfolio.dto';
 import { UpdatePortfolioDto } from './dto/update-portfolio.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, isValidObjectId } from 'mongoose';
+import { PaginationDto } from 'src/common/dto/Paginationdto';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class PortfoliosService {
+  private defaultLimit: number;
   constructor(
     @InjectModel(Portfolios.name)
     private readonly portfoliosModel: Model<Portfolios>,
-  ) {}
+    private readonly configService: ConfigService,
+  ) {
+    // console.log(process.env.DEFAULT_LIMIT);
+    // console.log(configService.get('defaultLimit'));
+    this.defaultLimit = configService.get<number>('defaultLimit');
+  }
   async create(createPortfolioDto: CreatePortfolioDto) {
     createPortfolioDto.typeContenu =
       createPortfolioDto.typeContenu.toLocaleLowerCase();
@@ -27,8 +35,21 @@ export class PortfoliosService {
     }
   }
 
-  async findAll() {
-    return Portfolios;
+  // async findAllPortfolios(): Promise<Portfolios[]> {
+  //   return this.portfoliosModel.find().limit(2);
+  // }
+  async findAllPortfolios(paginationDto: PaginationDto) {
+    // console.log(+process.env.DEFAULT_LIMIT);
+    // const { limit = +process.env.DEFAULT_LIMIT, offset = 0 } = paginationDto;
+    const { limit = this.defaultLimit, offset = 0 } = paginationDto;
+
+    return this.portfoliosModel
+      .find()
+      .limit(limit)
+      .skip(offset)
+      .sort({ no: 1 })
+      .select(`-__v`)
+      .exec();
   }
 
   async findOne(term: string) {
