@@ -32,6 +32,7 @@ import { CreateFooterDto } from './dto/create-footer.dto';
 import { UpdateWorksDto } from './dto/update-works.dto';
 import { CreateWorksDto } from './dto/create-works.dto';
 import { ParseMongoIdpipe } from 'src/common/pipes/parse-mongo-idpipe/parse-mongo-idpipe.pipe';
+import { UpdateExperienceDto } from './dto/update-experience.dto';
 
 @Controller('portfolios')
 export class PortfoliosController {
@@ -287,100 +288,10 @@ export class PortfoliosController {
   removeFooter(@Param('id', ParseMongoIdpipe) id: string) {
     return this.portfoliosService.removeFooter(id);
   }
-  // //*********experienceETworks******************
-  // //*********experienceETworks******************
-  // //*********experience    // //*********experienceETworks******************
+  // // //*********experienceETworks******************
+  // // //*********experienceETworks******************
+  // // //*********experience    // //*********experienceETworks******************
 
-  @Post('experience')
-  @HttpCode(HttpStatus.CREATED)
-  createExperience(@Body() createExperienceDto: CreateExperienceDto) {
-    return this.portfoliosService.createExperience(createExperienceDto);
-  }
-
-  @Get('experience')
-  async findAllExperience(@Query() paginationDto: PaginationDto) {
-    return this.portfoliosService.findAllExperience(paginationDto);
-  }
-
-  @Get('experience/:experienceId/works')
-  async findAllWorks(
-    @Param('experienceId', ParseMongoIdpipe) experienceId: string,
-    @Query() paginationDto: PaginationDto,
-  ) {
-    return this.portfoliosService.findAllWorks(experienceId, paginationDto);
-  }
-
-  @Get('experience/:experienceId/works/:term')
-  findOneWorks(
-    @Param('experienceId', ParseMongoIdpipe) experienceId: string,
-    @Param('term') term: string,
-  ) {
-    return this.portfoliosService.findOneWorks(term);
-  }
-
-  @Post('experience/:experienceId/works')
-  @HttpCode(HttpStatus.CREATED)
-  createWorks(
-    @Param('experienceId', ParseMongoIdpipe) experienceId: string,
-    @Body() createWorksDto: CreateWorksDto,
-  ) {
-    return this.portfoliosService.createWorks(experienceId, createWorksDto);
-  }
-
-  @Put('experience/:experienceId/works/:term')
-  updateWorks(
-    @Param('experienceId', ParseMongoIdpipe) experienceId: string,
-    // @Param('term') term: string,
-    @Body() updateWorksDto: UpdateWorksDto,
-  ) {
-    return this.portfoliosService.updateWorks(
-      experienceId,
-      // term,
-      updateWorksDto,
-    );
-  }
-
-  @Delete('experience/:experienceId/works/:id')
-  removeWorks(
-    @Param('experienceId', ParseMongoIdpipe) experienceId: string,
-    @Param('id', ParseMongoIdpipe) id: string,
-  ) {
-    return this.portfoliosService.removeWorks(id);
-  }
-  // //*********Works******************
-  // //*********Works******************
-  // //*********Works******************
-  // @Post('experience/works')
-  // @HttpCode(HttpStatus.CREATED)
-  // createWorks(@Body() createWorksDto: CreateWorksDto) {
-  //   return this.portfoliosService.createWorks(createWorksDto);
-  // }
-
-  // @Get('experience/works')
-  // async findAllWorks(@Query() paginationDto: PaginationDto) {
-  //   return this.portfoliosService.findAllWorks(paginationDto);
-  // }
-
-  // @Get('experience/works/:term')
-  // findOneWorks(@Param('term') term: string) {
-  //   return this.portfoliosService.findOneWorks(term);
-  // }
-
-  // @Put('experience/works/:term')
-  // updateWorks(
-  //   @Param('term') term: string,
-  //   @Body() updateWorksDto: UpdateWorksDto,
-  // ) {
-  //   return this.portfoliosService.updateWorks(term, updateWorksDto);
-  // }
-
-  // @Delete('experience/works/:id')
-  // removeWorks(@Param('id', ParseMongoIdpipe) id: string) {
-  //   return this.portfoliosService.removeWorks(id);
-  // }
-  // //*********experience******************
-  // //*********experience******************
-  // //*********experience******************
   // @Post('experience')
   // @HttpCode(HttpStatus.CREATED)
   // createExperience(@Body() createExperienceDto: CreateExperienceDto) {
@@ -392,23 +303,113 @@ export class PortfoliosController {
   //   return this.portfoliosService.findAllExperience(paginationDto);
   // }
 
-  // @Get('experience/:term')
-  // findOneExperience(@Param('term') term: string) {
-  //   return this.portfoliosService.findOneExperience(term);
-  // }
-
-  // @Put('experience/:term')
-  // updateExperience(
-  //   @Param('term') term: string,
-  //   @Body() updateExperienceDto: UpdateExperienceDto,
+  // @Get('experience/:experienceId/works')
+  // async findAllWorks(
+  //   @Param('experienceId', ParseMongoIdpipe) experienceId: string,
+  //   @Query() paginationDto: PaginationDto,
   // ) {
-  //   return this.portfoliosService.updateExperience(term, updateExperienceDto);
+  //   return this.portfoliosService.findAllWorks(experienceId, paginationDto);
   // }
 
-  // @Delete('experience/:id')
-  // removeExperience(@Param('id', ParseMongoIdpipe) id: string) {
-  //   return this.portfoliosService.removeExperience(id);
+  // @Get('experience/:experienceId/works/:term')
+  // findOneWorks(
+  //   @Param('experienceId', ParseMongoIdpipe) experienceId: string,
+  //   @Param('term') term: string,
+  // ) {
+  //   return this.portfoliosService.findOneWorks(term);
   // }
+
+  // @Post('experience/works')
+  // @HttpCode(HttpStatus.CREATED)
+  // createWorks(
+  //   @Param('experienceId', ParseMongoIdpipe) experienceId: string,
+  //   @Body() createWorksDto: CreateWorksDto,
+  // ) {
+  //   return this.portfoliosService.createWorks(experienceId, createWorksDto);
+  // }
+
+  // @Put('experience/works/:term')
+  // updateWorks(
+  //   @Param('experienceId', ParseMongoIdpipe) experienceId: string,
+  //   // @Param('term') term: string,
+  //   @Body() updateWorksDto: UpdateWorksDto,
+  // ) {
+  //   return this.portfoliosService.updateWorks(
+  //     experienceId,
+  //     // term,
+  //     updateWorksDto,
+  //   );
+  // }
+
+  // @Delete('experience/:experienceId/works/:id')
+  // removeWorks(
+  //   @Param('experienceId', ParseMongoIdpipe) experienceId: string,
+  //   @Param('id', ParseMongoIdpipe) id: string,
+  // ) {
+  //   return this.portfoliosService.removeWorks(id);
+  // }
+  //*********Works******************
+  //*********Works******************
+  //*********Works******************
+  @Post('experience/works')
+  @HttpCode(HttpStatus.CREATED)
+  createWorks(@Body() createWorksDto: CreateWorksDto) {
+    return this.portfoliosService.createWorks(createWorksDto);
+  }
+
+  @Get('experience/works')
+  async findAllWorks(@Query() paginationDto: PaginationDto) {
+    return this.portfoliosService.findAllWorks(paginationDto);
+  }
+
+  @Get('experience/works/:term')
+  findOneWorks(@Param('term') term: string) {
+    return this.portfoliosService.findOneWorks(term);
+  }
+
+  @Put('experience/works/:term')
+  updateWorks(
+    @Param('term') term: string,
+    @Body() updateWorksDto: UpdateWorksDto,
+  ) {
+    return this.portfoliosService.updateWorks(term, updateWorksDto);
+  }
+
+  @Delete('experience/works/:id')
+  removeWorks(@Param('id', ParseMongoIdpipe) id: string) {
+    return this.portfoliosService.removeWorks(id);
+  }
+  //*********experience******************
+  //*********experience******************
+  //*********experience******************
+  @Post('experience')
+  @HttpCode(HttpStatus.CREATED)
+  createExperience(@Body() createExperienceDto: CreateExperienceDto) {
+    return this.portfoliosService.createExperience(createExperienceDto);
+  }
+
+  @Get('experience')
+  async findAllExperience(@Query() paginationDto: PaginationDto) {
+    return this.portfoliosService.findAllExperience(paginationDto);
+  }
+
+  @Get('experience/:term')
+  findOneExperience(@Param('term') term: string) {
+    return this.portfoliosService.findOneExperience(term);
+  }
+
+  @Put('experience/:term')
+  updateExperience(
+    @Param('term') term: string,
+    @Body() updateExperienceDto: UpdateExperienceDto,
+  ) {
+    return this.portfoliosService.updateExperience(term, updateExperienceDto);
+  }
+
+  @Delete('experience/:id')
+  removeExperience(@Param('id', ParseMongoIdpipe) id: string) {
+    return this.portfoliosService.removeExperience(id);
+  }
 }
 
 // import { PortfoliosService } from './portfolios.service';

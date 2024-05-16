@@ -5,7 +5,7 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model, Types, isValidObjectId } from 'mongoose';
+import { Model, isValidObjectId } from 'mongoose';
 import { PaginationDto } from 'src/common/dto/Paginationdto';
 import { ConfigService } from '@nestjs/config';
 import { About } from './entities/about.entity';
@@ -818,7 +818,7 @@ export class PortfoliosService {
   ////////////////////////////////////////////////
   // ***************Works&&&&&&&&&&&&&&&&&&&&&&&&&
   ////////////////////////////////////
-  async createWorks(experienceId: string, createWorksDto: CreateWorksDto) {
+  async createWorks(createWorksDto: CreateWorksDto) {
     createWorksDto.title = createWorksDto.title.toLocaleLowerCase();
     createWorksDto.tag = createWorksDto.tag.toLocaleLowerCase();
     createWorksDto.image = createWorksDto.image.toLocaleLowerCase();
@@ -829,54 +829,23 @@ export class PortfoliosService {
     createWorksDto.tags = createWorksDto.tags.toLocaleLowerCase();
 
     try {
-      const works = await this.worksModel.create({
-        ...createWorksDto,
-        experience: experienceId,
-      });
-      return works;
+      const workss = await this.worksModel.create(createWorksDto);
+      return workss;
     } catch (error) {
       this.handleExceptions(error);
     }
   }
-  // async createWorks(createWorksDto: CreateWorksDto) {
-  //   createWorksDto.title = createWorksDto.title.toLocaleLowerCase();
-  //   createWorksDto.tag = createWorksDto.tag.toLocaleLowerCase();
-  //   createWorksDto.image = createWorksDto.image.toLocaleLowerCase();
-  //   createWorksDto.date = createWorksDto.date.toLocaleLowerCase();
-  //   createWorksDto.description = createWorksDto.description.toLocaleLowerCase();
-  //   createWorksDto.subdescription =
-  //     createWorksDto.subdescription.toLocaleLowerCase();
-  //   createWorksDto.tags = createWorksDto.tags.toLocaleLowerCase();
-
-  //   try {
-  //     const workss = await this.worksModel.create(createWorksDto);
-  //     return workss;
-  //   } catch (error) {
-  //     this.handleExceptions(error);
-  //   }
-  // }
-  async findAllWorks(experienceId: string, paginationDto: PaginationDto) {
+  async findAllWorks(paginationDto: PaginationDto) {
     const { limit = this.defaultLimit, offset = 0 } = paginationDto;
 
     return this.worksModel
-      .find({ experience: experienceId })
+      .find()
       .limit(limit)
       .skip(offset)
       .sort({ no: 1 })
       .select(`-__v`)
       .exec();
   }
-  // async findAllWorks(paginationDto: PaginationDto) {
-  //   const { limit = this.defaultLimit, offset = 0 } = paginationDto;
-
-  //   return this.worksModel
-  //     .find()
-  //     .limit(limit)
-  //     .skip(offset)
-  //     .sort({ no: 1 })
-  //     .select(`-__v`)
-  //     .exec();
-  // }
 
   async findOneWorks(term: string) {
     let workss: Works;
