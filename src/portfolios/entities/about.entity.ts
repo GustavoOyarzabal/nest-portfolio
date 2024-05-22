@@ -19,37 +19,42 @@ export class About extends Document {
     unique: true,
     index: true,
   })
-  about: string;
+  subTitle: string;
 
   @Prop({
     unique: true,
     index: true,
   })
-  hire: string;
+  description: string;
 
   @Prop({
     unique: true,
     index: true,
   })
-  service: string;
+  subDescription: string;
 
   @Prop({
     unique: true,
     index: true,
   })
-  formation: string;
+  github: string;
 
   @Prop({
     unique: true,
     index: true,
   })
-  experience: string;
+  email: string;
 
   @Prop({
     unique: true,
     index: true,
   })
-  formulaire: string;
+  tel: string;
+  @Prop({
+    unique: true,
+    index: true,
+  })
+  downloadCv: string;
 }
 
 export const AboutSchema = SchemaFactory.createForClass(About);

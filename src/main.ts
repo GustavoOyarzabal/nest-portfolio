@@ -15,6 +15,11 @@ async function bootstrap() {
       },
     }),
   );
+  // Habilitar CORS
+  app.enableCors({
+    origin: 'http://localhost:3000', // Permitir solicitudes desde este origen
+    credentials: true,
+  });
 
   await app.listen(process.env.PORT);
   console.log(`App running on port ${process.env.PORT}`);

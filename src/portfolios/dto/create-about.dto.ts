@@ -10,20 +10,23 @@ export class CreateAboutDto {
   title: string;
   @IsString()
   @MinLength(1)
-  about: string;
+  subTitle: string;
   @IsString()
   @MinLength(1)
-  hire: string;
+  description: string;
   @IsString()
   @MinLength(1)
-  service: string;
+  subDescription: string;
   @IsString()
   @MinLength(1)
-  formation: string;
+  github: string;
   @IsString()
   @MinLength(1)
-  experience: string;
+  email: string;
   @IsString()
   @MinLength(1)
-  formulaire: string;
+  tel: string;
+  @IsString()
+  @MinLength(1)
+  downloadCv: string;
 }

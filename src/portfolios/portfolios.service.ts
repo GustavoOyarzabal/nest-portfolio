@@ -71,12 +71,15 @@ export class PortfoliosService {
   ////////////////////////////////////
   async createAbout(createAboutDto: CreateAboutDto) {
     createAboutDto.title = createAboutDto.title.toLocaleLowerCase();
-    createAboutDto.about = createAboutDto.about.toLocaleLowerCase();
-    createAboutDto.hire = createAboutDto.hire.toLocaleLowerCase();
-    createAboutDto.service = createAboutDto.service.toLocaleLowerCase();
-    createAboutDto.formation = createAboutDto.formation.toLocaleLowerCase();
-    createAboutDto.experience = createAboutDto.experience.toLocaleLowerCase();
-    createAboutDto.formulaire = createAboutDto.formulaire.toLocaleLowerCase();
+    createAboutDto.subTitle = createAboutDto.subTitle.toLocaleLowerCase();
+    createAboutDto.description = createAboutDto.description.toLocaleLowerCase();
+    createAboutDto.subDescription =
+      createAboutDto.subDescription.toLocaleLowerCase();
+    createAboutDto.github = createAboutDto.github.toLocaleLowerCase();
+    createAboutDto.email = createAboutDto.email.toLocaleLowerCase();
+    createAboutDto.tel = createAboutDto.tel.toLocaleLowerCase();
+
+    createAboutDto.downloadCv = createAboutDto.downloadCv.toLocaleLowerCase();
 
     try {
       const abouts = await this.aboutModel.create(createAboutDto);
@@ -95,6 +98,7 @@ export class PortfoliosService {
       .skip(offset)
       .sort({ no: 1 })
       .select(`-__v`)
+      .findOne()
       .exec();
   }
 
@@ -123,23 +127,27 @@ export class PortfoliosService {
     if ((updateAboutDto.title = updateAboutDto.title)) {
       updateAboutDto.title = updateAboutDto.title.toLowerCase();
     }
-    if ((updateAboutDto.about = updateAboutDto.about)) {
-      updateAboutDto.about = updateAboutDto.about.toLowerCase();
+    if ((updateAboutDto.subTitle = updateAboutDto.subTitle)) {
+      updateAboutDto.subTitle = updateAboutDto.subTitle.toLowerCase();
     }
-    if ((updateAboutDto.hire = updateAboutDto.hire)) {
-      updateAboutDto.hire = updateAboutDto.hire.toLowerCase();
+    if ((updateAboutDto.description = updateAboutDto.description)) {
+      updateAboutDto.description = updateAboutDto.description.toLowerCase();
     }
-    if ((updateAboutDto.service = updateAboutDto.service)) {
-      updateAboutDto.service = updateAboutDto.service.toLowerCase();
+    if ((updateAboutDto.subDescription = updateAboutDto.subDescription)) {
+      updateAboutDto.subDescription =
+        updateAboutDto.subDescription.toLowerCase();
     }
-    if ((updateAboutDto.formation = updateAboutDto.formation)) {
-      updateAboutDto.formation = updateAboutDto.formation.toLowerCase();
+    if ((updateAboutDto.github = updateAboutDto.github)) {
+      updateAboutDto.github = updateAboutDto.github.toLowerCase();
     }
-    if ((updateAboutDto.experience = updateAboutDto.experience)) {
-      updateAboutDto.experience = updateAboutDto.experience.toLowerCase();
+    if ((updateAboutDto.email = updateAboutDto.email)) {
+      updateAboutDto.email = updateAboutDto.email.toLowerCase();
     }
-    if ((updateAboutDto.formulaire = updateAboutDto.formulaire)) {
-      updateAboutDto.formulaire = updateAboutDto.formulaire.toLowerCase();
+    if ((updateAboutDto.tel = updateAboutDto.tel)) {
+      updateAboutDto.tel = updateAboutDto.tel.toLowerCase();
+    }
+    if ((updateAboutDto.downloadCv = updateAboutDto.downloadCv)) {
+      updateAboutDto.downloadCv = updateAboutDto.downloadCv.toLowerCase();
     }
     try {
       await about.updateOne(updateAboutDto);
@@ -829,8 +837,9 @@ export class PortfoliosService {
     createWorksDto.tags = createWorksDto.tags.toLocaleLowerCase();
 
     try {
-      const workss = await this.worksModel.create(createWorksDto);
-      return workss;
+      const works = new this.worksModel(createWorksDto);
+      const savedWorks = await works.save();
+      return savedWorks;
     } catch (error) {
       this.handleExceptions(error);
     }
@@ -915,42 +924,13 @@ export class PortfoliosService {
       createExperienceDto.subTitle.toLocaleLowerCase();
 
     try {
-      const { no, title, subTitle } = createExperienceDto;
-      const experience = new this.experienceModel({
-        no,
-        title,
-        subTitle,
-      });
-      await this.experienceModel.create(experience);
-      return experience;
+      const experience = new this.experienceModel(createExperienceDto);
+      const savedExperience = await experience.save();
+      return savedExperience;
     } catch (error) {
       this.handleExceptions(error);
     }
   }
-  // async createExperience(createExperienceDto: CreateExperienceDto) {
-  //   try {
-  //     createExperienceDto.title = createExperienceDto.title.toLocaleLowerCase();
-  //     createExperienceDto.subTitle =
-  //       createExperienceDto.subTitle.toLocaleLowerCase();
-
-  //     const { no, title, subTitle, works } = createExperienceDto;
-  //     let worksNo: number[] = [];
-  //     if (works && works.length > 0) {
-  //       worksNo = works.map((work) => work.no);
-  //     }
-  //     const experience = new this.experienceModel({
-  //       no,
-  //       title,
-  //       subTitle,
-  //       works: worksNo,
-  //     });
-
-  //     await this.experienceModel.create(createExperienceDto);
-  //     return experience;
-  //   } catch (error) {
-  //     this.handleExceptions(error);
-  //   }
-  // }
 
   async findAllExperience(paginationDto: PaginationDto) {
     const { limit = this.defaultLimit, offset = 0 } = paginationDto;

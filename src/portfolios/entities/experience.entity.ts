@@ -20,10 +20,7 @@ export class Experience extends Document {
   })
   subTitle: string;
 
-  @Prop({
-    type: [{ type: Types.ObjectId, ref: 'Works' }],
-    default: [],
-  })
+  @Prop({ type: [{ type: Types.ObjectId, ref: 'Works' }], default: [] })
   works: Types.ObjectId[];
 }
 // const ExperienceSchema = SchemaFactory.createForClass(Experience);
