@@ -7,20 +7,62 @@ export class CreateServiceDto {
   no: number;
   @IsString()
   @MinLength(1)
-  designTrends: string;
+  title: string;
   @IsString()
   @MinLength(1)
-  pSDDesign: string;
+  subTitle: string;
   @IsString()
   @MinLength(1)
-  customerSupport: string;
+  designTrendsImage: string;
   @IsString()
   @MinLength(1)
-  webDevelopment: string;
+  designTrendsTitle: string;
   @IsString()
   @MinLength(1)
-  fullyResponsive: string;
+  designTrendsSubTitle: string;
   @IsString()
   @MinLength(1)
-  branding: string;
+  pSDDesignImage: string;
+  @IsString()
+  @MinLength(1)
+  pSDDesignTitle: string;
+  @IsString()
+  @MinLength(1)
+  pSDDesignSubTitle: string;
+  @IsString()
+  @MinLength(1)
+  customerSupportImage: string;
+  @IsString()
+  @MinLength(1)
+  customerSupportTitle: string;
+  @IsString()
+  @MinLength(1)
+  customerSupportSubTitle: string;
+  @IsString()
+  @MinLength(1)
+  webDevelopmentImage: string;
+  @IsString()
+  @MinLength(1)
+  webDevelopmentTitle: string;
+  @IsString()
+  @MinLength(1)
+  webDevelopmentSubTitle: string;
+  @IsString()
+  @MinLength(1)
+  fullyResponsiveImage: string;
+  @IsString()
+  @MinLength(1)
+  fullyResponsiveTitle: string;
+  @IsString()
+  @MinLength(1)
+  fullyResponsiveSubTitle: string;
+  @IsString()
+  @MinLength(1)
+  brandingImage: string;
+  @IsString()
+  @MinLength(1)
+  brandingTitle: string;
+  @IsString()
+  @MinLength(1)
+  brandingSubTitle: string;
 }

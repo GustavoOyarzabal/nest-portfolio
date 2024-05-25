@@ -13,36 +13,106 @@ export class Service extends Document {
     unique: true,
     index: true,
   })
-  designTrends: string;
+  title: string;
   @Prop({
     unique: true,
     index: true,
   })
-  pSDDesign: string;
+  subTitle: string;
+  @Prop({
+    unique: true,
+    index: true,
+  })
+  designTrendsImage: string;
+  @Prop({
+    unique: true,
+    index: true,
+  })
+  designTrendsTitle: string;
+  @Prop({
+    unique: true,
+    index: true,
+  })
+  designTrendsSubTitle: string;
+  @Prop({
+    unique: true,
+    index: true,
+  })
+  pSDDesignImage: string;
+  @Prop({
+    unique: true,
+    index: true,
+  })
+  pSDDesignTitle: string;
+  @Prop({
+    unique: true,
+    index: true,
+  })
+  pSDDesignSubTitle: string;
 
   @Prop({
     unique: true,
     index: true,
   })
-  customerSupport: string;
+  customerSupportImage: string;
+  @Prop({
+    unique: true,
+    index: true,
+  })
+  customerSupportTitle: string;
+  @Prop({
+    unique: true,
+    index: true,
+  })
+  customerSupportSubTitle: string;
 
   @Prop({
     unique: true,
     index: true,
   })
-  webDevelopment: string;
+  webDevelopmentImage: string;
+  @Prop({
+    unique: true,
+    index: true,
+  })
+  webDevelopmentTitle: string;
+  @Prop({
+    unique: true,
+    index: true,
+  })
+  webDevelopmentSubTitle: string;
 
   @Prop({
     unique: true,
     index: true,
   })
-  fullyResponsive: string;
+  fullyResponsiveImage: string;
+  @Prop({
+    unique: true,
+    index: true,
+  })
+  fullyResponsiveTitle: string;
+  @Prop({
+    unique: true,
+    index: true,
+  })
+  fullyResponsiveSubTitle: string;
 
   @Prop({
     unique: true,
     index: true,
   })
-  branding: string;
+  brandingImage: string;
+  @Prop({
+    unique: true,
+    index: true,
+  })
+  brandingTitle: string;
+  @Prop({
+    unique: true,
+    index: true,
+  })
+  brandingSubTitle: string;
 }
 
 export const ServiceSchema = SchemaFactory.createForClass(Service);

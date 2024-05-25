@@ -49,8 +49,8 @@ export class PortfoliosController {
   }
 
   @Get('about')
-  async findAllAbout(@Query() paginationDto: PaginationDto) {
-    return this.portfoliosService.findAllAbout(paginationDto);
+  async findAbout() {
+    return this.portfoliosService.findAbout();
   }
 
   @Get('about/:term')
@@ -80,8 +80,8 @@ export class PortfoliosController {
   }
 
   @Get('presentation')
-  async findAllPresentation(@Query() paginationDto: PaginationDto) {
-    return this.portfoliosService.findAllPresentation(paginationDto);
+  async findPresentation() {
+    return this.portfoliosService.findPresentation();
   }
 
   @Get('presentation/:term')
@@ -114,8 +114,8 @@ export class PortfoliosController {
   }
 
   @Get('service')
-  async findAllService(@Query() paginationDto: PaginationDto) {
-    return this.portfoliosService.findAllService(paginationDto);
+  async findService() {
+    return this.portfoliosService.findService();
   }
 
   @Get('service/:term')
@@ -145,8 +145,8 @@ export class PortfoliosController {
   }
 
   @Get('nav')
-  async findAllNav(@Query() paginationDto: PaginationDto) {
-    return this.portfoliosService.findAllNav(paginationDto);
+  async findNav() {
+    return this.portfoliosService.findNav();
   }
 
   @Get('nav/:term')
@@ -173,8 +173,8 @@ export class PortfoliosController {
   }
 
   @Get('hire')
-  async findAllHire(@Query() paginationDto: PaginationDto) {
-    return this.portfoliosService.findAllHire(paginationDto);
+  async findHire() {
+    return this.portfoliosService.findHire();
   }
 
   @Get('hire/:term')
@@ -236,8 +236,8 @@ export class PortfoliosController {
   }
 
   @Get('form')
-  async findAllForm(@Query() paginationDto: PaginationDto) {
-    return this.portfoliosService.findAllForm(paginationDto);
+  async findForm() {
+    return this.portfoliosService.findForm();
   }
 
   @Get('form/:term')
@@ -267,8 +267,8 @@ export class PortfoliosController {
   }
 
   @Get('footer')
-  async findAllFooter(@Query() paginationDto: PaginationDto) {
-    return this.portfoliosService.findAllFooter(paginationDto);
+  async findAllFooter() {
+    return this.portfoliosService.findFooter();
   }
 
   @Get('footer/:term')
@@ -358,8 +358,8 @@ export class PortfoliosController {
   }
 
   @Get('experience/works')
-  async findAllWorks(@Query() paginationDto: PaginationDto) {
-    return this.portfoliosService.findAllWorks(paginationDto);
+  async findWorks() {
+    return this.portfoliosService.findWorks();
   }
 
   @Get('experience/works/:term')
@@ -389,8 +389,8 @@ export class PortfoliosController {
   }
 
   @Get('experience')
-  async findAllExperience(@Query() paginationDto: PaginationDto) {
-    return this.portfoliosService.findAllExperience(paginationDto);
+  async findExperience() {
+    return this.portfoliosService.findExperience();
   }
 
   @Get('experience/:term')
@@ -409,6 +409,14 @@ export class PortfoliosController {
   @Delete('experience/:id')
   removeExperience(@Param('id', ParseMongoIdpipe) id: string) {
     return this.portfoliosService.removeExperience(id);
+  }
+  ////////////////////ADDWORKtoEXPERIENCE/////////////
+  @Put('experience/:experienceId/works/:workId')
+  async addWorkToExperience(
+    @Param('experienceId') experienceId: string,
+    @Param('workId') workId: string,
+  ) {
+    return this.portfoliosService.addWorkToExperience(experienceId, workId);
   }
 }
 

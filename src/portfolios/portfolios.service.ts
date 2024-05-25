@@ -82,24 +82,17 @@ export class PortfoliosService {
     createAboutDto.downloadCv = createAboutDto.downloadCv.toLocaleLowerCase();
 
     try {
-      const abouts = await this.aboutModel.create(createAboutDto);
-      return abouts;
+      const about = new this.aboutModel(createAboutDto);
+      const savedAbout = await about.save();
+
+      return savedAbout;
     } catch (error) {
       this.handleExceptions(error);
     }
   }
 
-  async findAllAbout(paginationDto: PaginationDto) {
-    const { limit = this.defaultLimit, offset = 0 } = paginationDto;
-
-    return this.aboutModel
-      .find()
-      .limit(limit)
-      .skip(offset)
-      .sort({ no: 1 })
-      .select(`-__v`)
-      .findOne()
-      .exec();
+  async findAbout() {
+    return this.aboutModel.findOne().select(`-__v`).exec();
   }
 
   async findOneAbout(term: string) {
@@ -124,79 +117,72 @@ export class PortfoliosService {
   async updateAbout(term: string, updateAboutDto: UpdateAboutDto) {
     const about = await this.findOneAbout(term);
 
-    if ((updateAboutDto.title = updateAboutDto.title)) {
+    if (updateAboutDto.title) {
       updateAboutDto.title = updateAboutDto.title.toLowerCase();
     }
-    if ((updateAboutDto.subTitle = updateAboutDto.subTitle)) {
+    if (updateAboutDto.subTitle) {
       updateAboutDto.subTitle = updateAboutDto.subTitle.toLowerCase();
     }
-    if ((updateAboutDto.description = updateAboutDto.description)) {
+    if (updateAboutDto.description) {
       updateAboutDto.description = updateAboutDto.description.toLowerCase();
     }
-    if ((updateAboutDto.subDescription = updateAboutDto.subDescription)) {
+    if (updateAboutDto.subDescription) {
       updateAboutDto.subDescription =
         updateAboutDto.subDescription.toLowerCase();
     }
-    if ((updateAboutDto.github = updateAboutDto.github)) {
+    if (updateAboutDto.github) {
       updateAboutDto.github = updateAboutDto.github.toLowerCase();
     }
-    if ((updateAboutDto.email = updateAboutDto.email)) {
+    if (updateAboutDto.email) {
       updateAboutDto.email = updateAboutDto.email.toLowerCase();
     }
-    if ((updateAboutDto.tel = updateAboutDto.tel)) {
+    if (updateAboutDto.tel) {
       updateAboutDto.tel = updateAboutDto.tel.toLowerCase();
     }
-    if ((updateAboutDto.downloadCv = updateAboutDto.downloadCv)) {
+    if (updateAboutDto.downloadCv) {
       updateAboutDto.downloadCv = updateAboutDto.downloadCv.toLowerCase();
     }
-    try {
-      await about.updateOne(updateAboutDto);
 
+    try {
+      const updatedAbout = await this.aboutModel.findByIdAndUpdate(
+        about._id,
+        updateAboutDto,
+        { new: true },
+      );
+      if (!updatedAbout) {
+        throw new NotFoundException(`About with id ${term} not found`);
+      }
       return { ...about.toJSON(), ...updateAboutDto };
     } catch (error) {
       this.handleExceptions(error);
     }
   }
-
   async removeAbout(id: string) {
     const { deletedCount } = await this.aboutModel.deleteOne({ _id: id });
     if (deletedCount == 0)
-      throw new BadRequestException(`About with id "${id}"not found`);
+      throw new BadRequestException(`about with id "${id}"not found`);
     return;
   }
-
   ////////////////////////////////////////////////
   // ***************Presentation&&&&&&&&&&&&&&&&&&&&&&&&&
   ////////////////////////////////////
   async createPresentation(createPresentationDto: CreatePresentationDto) {
-    createPresentationDto.skillName =
-      createPresentationDto.skillName.toLocaleLowerCase();
-    createPresentationDto.skillLastName =
-      createPresentationDto.skillLastName.toLocaleLowerCase();
-    createPresentationDto.skillHeadline =
-      createPresentationDto.skillHeadline.toLocaleLowerCase();
+    createPresentationDto.skillName = createPresentationDto.skillName;
+    createPresentationDto.skillLastName = createPresentationDto.skillLastName;
+    createPresentationDto.skillHeadline = createPresentationDto.skillHeadline;
     console.log('DTO después de la normalización:', createPresentationDto);
     try {
-      const presentations = await this.presentationModel.create(
-        createPresentationDto,
-      );
-      return presentations;
+      const presentation = new this.aboutModel(createPresentationDto);
+      const savedPresentation = await presentation.save();
+
+      return savedPresentation;
     } catch (error) {
-      console.error('Error al crear presentación:', error);
       this.handleExceptions(error);
     }
   }
 
-  async findAllPresentation(paginationDto: PaginationDto) {
-    const { limit = this.defaultLimit, offset = 0 } = paginationDto;
-
-    return this.presentationModel
-      .find()
-      .limit(limit)
-      .skip(offset)
-      .sort({ no: 1 })
-      .select(`-__v`)
-      .exec();
+  async findPresentation() {
+    return this.presentationModel.findOne().select(`-__v`).exec();
   }
 
   async findOnePresentation(term: string) {
@@ -224,27 +210,25 @@ export class PortfoliosService {
   ) {
     const presentation = await this.findOnePresentation(term);
 
-    if ((updatePresentationDto.skillName = updatePresentationDto.skillName)) {
-      updatePresentationDto.skillName =
-        updatePresentationDto.skillName.toLowerCase();
+    if (updatePresentationDto.skillName) {
+      updatePresentationDto.skillName = updatePresentationDto.skillName;
     }
-    if (
-      (updatePresentationDto.skillLastName =
-        updatePresentationDto.skillLastName)
-    ) {
-      updatePresentationDto.skillLastName =
-        updatePresentationDto.skillLastName.toLowerCase();
+    if (updatePresentationDto.skillLastName) {
+      updatePresentationDto.skillLastName = updatePresentationDto.skillLastName;
     }
-    if (
-      (updatePresentationDto.skillHeadline =
-        updatePresentationDto.skillHeadline)
-    ) {
-      updatePresentationDto.skillHeadline =
-        updatePresentationDto.skillHeadline.toLowerCase();
+    if (updatePresentationDto.skillHeadline) {
+      updatePresentationDto.skillHeadline = updatePresentationDto.skillHeadline;
     }
     try {
-      await presentation.updateOne(updatePresentationDto);
-
+      const updatedPresentation =
+        await this.presentationModel.findByIdAndUpdate(
+          presentation._id,
+          updatePresentationDto,
+          { new: true },
+        );
+      if (!updatedPresentation) {
+        throw new NotFoundException(`About with id ${term} not found`);
+      }
       return { ...presentation.toJSON(), ...updatePresentationDto };
     } catch (error) {
       this.handleExceptions(error);
@@ -263,34 +247,75 @@ export class PortfoliosService {
   // ***************services&&&&&&&&&&&&&&&&&&&&&&&&&
   ////////////////////////////////////
   async createService(createServiceDto: CreateServiceDto) {
-    createServiceDto.designTrends =
-      createServiceDto.designTrends.toLocaleLowerCase();
-    createServiceDto.pSDDesign = createServiceDto.pSDDesign.toLocaleLowerCase();
-    createServiceDto.customerSupport =
-      createServiceDto.customerSupport.toLocaleLowerCase();
-    createServiceDto.webDevelopment =
-      createServiceDto.webDevelopment.toLocaleLowerCase();
-    createServiceDto.fullyResponsive =
-      createServiceDto.fullyResponsive.toLocaleLowerCase();
-    createServiceDto.branding = createServiceDto.branding.toLocaleLowerCase();
+    createServiceDto.title = createServiceDto.title.toLocaleLowerCase();
+
+    createServiceDto.subTitle = createServiceDto.subTitle.toLocaleLowerCase();
+
+    createServiceDto.designTrendsImage =
+      createServiceDto.designTrendsImage.toLocaleLowerCase();
+
+    createServiceDto.designTrendsTitle =
+      createServiceDto.designTrendsTitle.toLocaleLowerCase();
+
+    createServiceDto.designTrendsSubTitle =
+      createServiceDto.designTrendsSubTitle.toLocaleLowerCase();
+
+    createServiceDto.pSDDesignImage =
+      createServiceDto.pSDDesignImage.toLocaleLowerCase();
+
+    createServiceDto.pSDDesignTitle =
+      createServiceDto.pSDDesignTitle.toLocaleLowerCase();
+
+    createServiceDto.pSDDesignSubTitle =
+      createServiceDto.pSDDesignSubTitle.toLocaleLowerCase();
+
+    createServiceDto.customerSupportImage =
+      createServiceDto.customerSupportImage.toLocaleLowerCase();
+
+    createServiceDto.customerSupportTitle =
+      createServiceDto.customerSupportTitle.toLocaleLowerCase();
+
+    createServiceDto.customerSupportSubTitle =
+      createServiceDto.customerSupportSubTitle.toLocaleLowerCase();
+
+    createServiceDto.webDevelopmentImage =
+      createServiceDto.webDevelopmentImage.toLocaleLowerCase();
+
+    createServiceDto.webDevelopmentTitle =
+      createServiceDto.webDevelopmentTitle.toLocaleLowerCase();
+
+    createServiceDto.webDevelopmentSubTitle =
+      createServiceDto.webDevelopmentSubTitle.toLocaleLowerCase();
+
+    createServiceDto.fullyResponsiveImage =
+      createServiceDto.fullyResponsiveImage.toLocaleLowerCase();
+
+    createServiceDto.fullyResponsiveTitle =
+      createServiceDto.fullyResponsiveTitle.toLocaleLowerCase();
+
+    createServiceDto.fullyResponsiveSubTitle =
+      createServiceDto.fullyResponsiveSubTitle.toLocaleLowerCase();
+
+    createServiceDto.brandingImage =
+      createServiceDto.brandingImage.toLocaleLowerCase();
+
+    createServiceDto.brandingTitle =
+      createServiceDto.brandingTitle.toLocaleLowerCase();
+
+    createServiceDto.brandingSubTitle =
+      createServiceDto.brandingSubTitle.toLocaleLowerCase();
     try {
-      const services = await this.serviceModel.create(createServiceDto);
-      return services;
+      const service = new this.serviceModel(createServiceDto);
+      const savedService = await service.save();
+
+      return savedService;
     } catch (error) {
       this.handleExceptions(error);
     }
   }
 
-  async findAllService(paginationDto: PaginationDto) {
-    const { limit = this.defaultLimit, offset = 0 } = paginationDto;
-
-    return this.serviceModel
-      .find()
-      .limit(limit)
-      .skip(offset)
-      .sort({ no: 1 })
-      .select(`-__v`)
-      .exec();
+  async findService() {
+    return this.serviceModel.findOne().select(`-__v`).exec();
   }
 
   async findOneService(term: string) {
@@ -315,37 +340,99 @@ export class PortfoliosService {
   async updateService(term: string, updateServiceDto: UpdateServiceDto) {
     const service = await this.findOneService(term);
 
-    if ((updateServiceDto.designTrends = updateServiceDto.designTrends)) {
-      updateServiceDto.designTrends =
-        updateServiceDto.designTrends.toLowerCase();
+    if (updateServiceDto.title) {
+      updateServiceDto.title = updateServiceDto.title.toLowerCase();
     }
-    if ((updateServiceDto.pSDDesign = updateServiceDto.pSDDesign)) {
-      updateServiceDto.pSDDesign = updateServiceDto.pSDDesign.toLowerCase();
+    if (updateServiceDto.subTitle) {
+      updateServiceDto.subTitle = updateServiceDto.subTitle.toLowerCase();
     }
-    if ((updateServiceDto.customerSupport = updateServiceDto.customerSupport)) {
-      updateServiceDto.customerSupport =
-        updateServiceDto.customerSupport.toLowerCase();
+    if (updateServiceDto.designTrendsImage) {
+      updateServiceDto.designTrendsImage =
+        updateServiceDto.designTrendsImage.toLowerCase();
     }
-    if ((updateServiceDto.webDevelopment = updateServiceDto.webDevelopment)) {
-      updateServiceDto.webDevelopment =
-        updateServiceDto.webDevelopment.toLowerCase();
+    if (updateServiceDto.designTrendsTitle) {
+      updateServiceDto.designTrendsTitle =
+        updateServiceDto.designTrendsTitle.toLowerCase();
     }
-    if ((updateServiceDto.fullyResponsive = updateServiceDto.fullyResponsive)) {
-      updateServiceDto.fullyResponsive =
-        updateServiceDto.fullyResponsive.toLowerCase();
+    if (updateServiceDto.designTrendsSubTitle) {
+      updateServiceDto.designTrendsSubTitle =
+        updateServiceDto.designTrendsSubTitle.toLowerCase();
     }
-    if ((updateServiceDto.branding = updateServiceDto.branding)) {
-      updateServiceDto.branding = updateServiceDto.branding.toLowerCase();
+    if (updateServiceDto.pSDDesignImage) {
+      updateServiceDto.pSDDesignImage =
+        updateServiceDto.pSDDesignImage.toLowerCase();
     }
-    try {
-      await service.updateOne(updateServiceDto);
+    if (updateServiceDto.pSDDesignTitle) {
+      updateServiceDto.pSDDesignTitle =
+        updateServiceDto.pSDDesignTitle.toLowerCase();
+    }
+    if (updateServiceDto.pSDDesignSubTitle) {
+      updateServiceDto.pSDDesignSubTitle =
+        updateServiceDto.pSDDesignSubTitle.toLowerCase();
+    }
+    if (updateServiceDto.customerSupportImage) {
+      updateServiceDto.customerSupportImage =
+        updateServiceDto.customerSupportImage.toLowerCase();
+    }
+    if (updateServiceDto.customerSupportTitle) {
+      updateServiceDto.customerSupportTitle =
+        updateServiceDto.customerSupportTitle.toLowerCase();
+    }
+    if (updateServiceDto.customerSupportSubTitle) {
+      updateServiceDto.customerSupportSubTitle =
+        updateServiceDto.customerSupportSubTitle.toLowerCase();
+    }
+    if (updateServiceDto.webDevelopmentImage) {
+      updateServiceDto.webDevelopmentImage =
+        updateServiceDto.webDevelopmentImage.toLowerCase();
+    }
+    if (updateServiceDto.webDevelopmentTitle) {
+      updateServiceDto.webDevelopmentTitle =
+        updateServiceDto.webDevelopmentTitle.toLowerCase();
+    }
+    if (updateServiceDto.webDevelopmentSubTitle) {
+      updateServiceDto.webDevelopmentSubTitle =
+        updateServiceDto.webDevelopmentSubTitle.toLowerCase();
+    }
+    if (updateServiceDto.fullyResponsiveImage) {
+      updateServiceDto.fullyResponsiveImage =
+        updateServiceDto.fullyResponsiveImage.toLowerCase();
+    }
+    if (updateServiceDto.fullyResponsiveTitle) {
+      updateServiceDto.fullyResponsiveTitle =
+        updateServiceDto.fullyResponsiveTitle.toLowerCase();
+    }
+    if (updateServiceDto.fullyResponsiveSubTitle) {
+      updateServiceDto.fullyResponsiveSubTitle =
+        updateServiceDto.fullyResponsiveSubTitle.toLowerCase();
+    }
+    if (updateServiceDto.brandingImage) {
+      updateServiceDto.brandingImage =
+        updateServiceDto.brandingImage.toLowerCase();
+    }
+    if (updateServiceDto.brandingTitle) {
+      updateServiceDto.brandingTitle =
+        updateServiceDto.brandingTitle.toLowerCase();
+    }
+    if (updateServiceDto.brandingSubTitle) {
+      updateServiceDto.brandingSubTitle =
+        updateServiceDto.brandingSubTitle.toLowerCase();
+    }
 
+    try {
+      const updatedService = await this.serviceModel.findByIdAndUpdate(
+        service._id,
+        updateServiceDto,
+        { new: true },
+      );
+      if (!updatedService) {
+        throw new NotFoundException(`service with id ${term} not found`);
+      }
       return { ...service.toJSON(), ...updateServiceDto };
     } catch (error) {
       this.handleExceptions(error);
     }
   }
-
   async removeService(id: string) {
     const { deletedCount } = await this.serviceModel.deleteOne({ _id: id });
     if (deletedCount == 0)
@@ -365,23 +452,17 @@ export class PortfoliosService {
     createNavDto.formation = createNavDto.formation.toLocaleLowerCase();
     createNavDto.contact = createNavDto.contact.toLocaleLowerCase();
     try {
-      const navs = await this.navModel.create(createNavDto);
-      return navs;
+      const nav = new this.navModel(createNavDto);
+      const savedNav = await nav.save();
+
+      return savedNav;
     } catch (error) {
       this.handleExceptions(error);
     }
   }
 
-  async findAllNav(paginationDto: PaginationDto) {
-    const { limit = this.defaultLimit, offset = 0 } = paginationDto;
-
-    return this.navModel
-      .find()
-      .limit(limit)
-      .skip(offset)
-      .sort({ no: 1 })
-      .select(`-__v`)
-      .exec();
+  async findNav() {
+    return this.navModel.findOne().select(`-__v`).exec();
   }
 
   async findOneNav(term: string) {
@@ -406,39 +487,44 @@ export class PortfoliosService {
   async updateNav(term: string, updateNavDto: UpdateNavDto) {
     const nav = await this.findOneNav(term);
 
-    if ((updateNavDto.nom = updateNavDto.nom)) {
+    if (updateNavDto.nom) {
       updateNavDto.nom = updateNavDto.nom.toLowerCase();
     }
-    if ((updateNavDto.avialable = updateNavDto.avialable)) {
+    if (updateNavDto.avialable) {
       updateNavDto.avialable = updateNavDto.avialable.toLowerCase();
     }
-    if ((updateNavDto.home = updateNavDto.home)) {
+    if (updateNavDto.home) {
       updateNavDto.home = updateNavDto.home.toLowerCase();
     }
-    if ((updateNavDto.about = updateNavDto.about)) {
+    if (updateNavDto.about) {
       updateNavDto.about = updateNavDto.about.toLowerCase();
     }
-    if ((updateNavDto.services = updateNavDto.services)) {
+    if (updateNavDto.services) {
       updateNavDto.services = updateNavDto.services.toLowerCase();
     }
-    if ((updateNavDto.experience = updateNavDto.experience)) {
+    if (updateNavDto.experience) {
       updateNavDto.experience = updateNavDto.experience.toLowerCase();
     }
-    if ((updateNavDto.formation = updateNavDto.formation)) {
+    if (updateNavDto.formation) {
       updateNavDto.formation = updateNavDto.formation.toLowerCase();
     }
-    if ((updateNavDto.contact = updateNavDto.contact)) {
+    if (updateNavDto.contact) {
       updateNavDto.contact = updateNavDto.contact.toLowerCase();
     }
     try {
-      await nav.updateOne(updateNavDto);
-
+      const updatedNav = await this.navModel.findByIdAndUpdate(
+        nav._id,
+        updateNavDto,
+        { new: true },
+      );
+      if (!updatedNav) {
+        throw new NotFoundException(`About with id ${term} not found`);
+      }
       return { ...nav.toJSON(), ...updateNavDto };
     } catch (error) {
       this.handleExceptions(error);
     }
   }
-
   async removeNav(id: string) {
     const { deletedCount } = await this.navModel.deleteOne({ _id: id });
     if (deletedCount == 0)
@@ -453,23 +539,17 @@ export class PortfoliosService {
     createHireDto.available = createHireDto.available.toLocaleLowerCase();
     createHireDto.hireMe = createHireDto.hireMe.toLocaleLowerCase();
     try {
-      const hires = await this.hireModel.create(createHireDto);
-      return hires;
+      const hire = new this.hireModel(createHireDto);
+      const savedHire = await hire.save();
+
+      return savedHire;
     } catch (error) {
       this.handleExceptions(error);
     }
   }
 
-  async findAllHire(paginationDto: PaginationDto) {
-    const { limit = this.defaultLimit, offset = 0 } = paginationDto;
-
-    return this.hireModel
-      .find()
-      .limit(limit)
-      .skip(offset)
-      .sort({ no: 1 })
-      .select(`-__v`)
-      .exec();
+  async findHire() {
+    return this.hireModel.findOne().select(`-__v`).exec();
   }
 
   async findOneHire(term: string) {
@@ -494,18 +574,24 @@ export class PortfoliosService {
   async updateHire(term: string, updateHireDto: UpdateHireDto) {
     const hire = await this.findOneHire(term);
 
-    if ((updateHireDto.goToWork = updateHireDto.goToWork)) {
+    if (updateHireDto.goToWork) {
       updateHireDto.goToWork = updateHireDto.goToWork.toLowerCase();
     }
-    if ((updateHireDto.available = updateHireDto.available)) {
+    if (updateHireDto.available) {
       updateHireDto.available = updateHireDto.available.toLowerCase();
     }
-    if ((updateHireDto.hireMe = updateHireDto.hireMe)) {
+    if (updateHireDto.hireMe) {
       updateHireDto.hireMe = updateHireDto.hireMe.toLowerCase();
     }
     try {
-      await hire.updateOne(updateHireDto);
-
+      const updatedHire = await this.hireModel.findByIdAndUpdate(
+        hire._id,
+        updateHireDto,
+        { new: true },
+      );
+      if (!updatedHire) {
+        throw new NotFoundException(`hire with id ${term} not found`);
+      }
       return { ...hire.toJSON(), ...updateHireDto };
     } catch (error) {
       this.handleExceptions(error);
@@ -629,24 +715,19 @@ export class PortfoliosService {
     createFormDto.subject = createFormDto.subject.toLocaleLowerCase();
     createFormDto.message = createFormDto.message.toLocaleLowerCase();
     createFormDto.sendMessage = createFormDto.sendMessage.toLocaleLowerCase();
+
     try {
-      const forms = await this.formModel.create(createFormDto);
-      return forms;
+      const form = new this.formModel(createFormDto);
+      const savedForm = await form.save();
+
+      return savedForm;
     } catch (error) {
       this.handleExceptions(error);
     }
   }
 
-  async findAllForm(paginationDto: PaginationDto) {
-    const { limit = this.defaultLimit, offset = 0 } = paginationDto;
-
-    return this.formModel
-      .find()
-      .limit(limit)
-      .skip(offset)
-      .sort({ no: 1 })
-      .select(`-__v`)
-      .exec();
+  async findForm() {
+    return this.formModel.findOne().select(`-__v`).exec();
   }
 
   async findOneForm(term: string) {
@@ -671,36 +752,41 @@ export class PortfoliosService {
   async updateForm(term: string, updateFormDto: UpdateFormDto) {
     const form = await this.findOneForm(term);
 
-    if ((updateFormDto.title = updateFormDto.title)) {
+    if (updateFormDto.title) {
       updateFormDto.title = updateFormDto.title.toLowerCase();
     }
-    if ((updateFormDto.subTitle = updateFormDto.subTitle)) {
+    if (updateFormDto.subTitle) {
       updateFormDto.subTitle = updateFormDto.subTitle.toLowerCase();
     }
-    if ((updateFormDto.name = updateFormDto.name)) {
+    if (updateFormDto.name) {
       updateFormDto.name = updateFormDto.name.toLowerCase();
     }
-    if ((updateFormDto.email = updateFormDto.email)) {
+    if (updateFormDto.email) {
       updateFormDto.email = updateFormDto.email.toLowerCase();
     }
-    if ((updateFormDto.subject = updateFormDto.subject)) {
+    if (updateFormDto.subject) {
       updateFormDto.subject = updateFormDto.subject.toLowerCase();
     }
-    if ((updateFormDto.message = updateFormDto.message)) {
+    if (updateFormDto.message) {
       updateFormDto.message = updateFormDto.message.toLowerCase();
     }
-    if ((updateFormDto.sendMessage = updateFormDto.sendMessage)) {
+    if (updateFormDto.sendMessage) {
       updateFormDto.sendMessage = updateFormDto.sendMessage.toLowerCase();
     }
     try {
-      await form.updateOne(updateFormDto);
-
+      const updatedForm = await this.formModel.findByIdAndUpdate(
+        form._id,
+        updateFormDto,
+        { new: true },
+      );
+      if (!updatedForm) {
+        throw new NotFoundException(`form with id ${term} not found`);
+      }
       return { ...form.toJSON(), ...updateFormDto };
     } catch (error) {
       this.handleExceptions(error);
     }
   }
-
   async removeForm(id: string) {
     const { deletedCount } = await this.formModel.deleteOne({ _id: id });
     if (deletedCount == 0)
@@ -728,23 +814,17 @@ export class PortfoliosService {
       createFooterDto.developedBy.toLocaleLowerCase();
 
     try {
-      const footers = await this.footerModel.create(createFooterDto);
-      return footers;
+      const footer = new this.footerModel(createFooterDto);
+      const footerdAbout = await footer.save();
+
+      return footerdAbout;
     } catch (error) {
       this.handleExceptions(error);
     }
   }
 
-  async findAllFooter(paginationDto: PaginationDto) {
-    const { limit = this.defaultLimit, offset = 0 } = paginationDto;
-
-    return this.footerModel
-      .find()
-      .limit(limit)
-      .skip(offset)
-      .sort({ no: 1 })
-      .select(`-__v`)
-      .exec();
+  async findFooter() {
+    return this.footerModel.findOne().select(`-__v`).exec();
   }
 
   async findOneFooter(term: string) {
@@ -767,50 +847,56 @@ export class PortfoliosService {
     return footers;
   }
   async updateFooter(term: string, updateFooterDto: UpdateFooterDto) {
-    const footer = await this.findOneForm(term);
+    const footer = await this.findOneFooter(term);
 
-    if ((updateFooterDto.imageAdress = updateFooterDto.imageAdress)) {
+    if (updateFooterDto.imageAdress) {
       updateFooterDto.imageAdress = updateFooterDto.imageAdress.toLowerCase();
     }
-    if ((updateFooterDto.adrese = updateFooterDto.adrese)) {
+    if (updateFooterDto.adrese) {
       updateFooterDto.adrese = updateFooterDto.adrese.toLowerCase();
     }
-    if ((updateFooterDto.imageTel = updateFooterDto.imageTel)) {
+    if (updateFooterDto.imageTel) {
       updateFooterDto.imageTel = updateFooterDto.imageTel.toLowerCase();
     }
-    if ((updateFooterDto.numeroTel = updateFooterDto.numeroTel)) {
+    if (updateFooterDto.numeroTel) {
       updateFooterDto.numeroTel = updateFooterDto.numeroTel.toLowerCase();
     }
-    if ((updateFooterDto.imageEmail = updateFooterDto.imageEmail)) {
+    if (updateFooterDto.imageEmail) {
       updateFooterDto.imageEmail = updateFooterDto.imageEmail.toLowerCase();
     }
-    if ((updateFooterDto.email = updateFooterDto.email)) {
+    if (updateFooterDto.email) {
       updateFooterDto.email = updateFooterDto.email.toLowerCase();
     }
-    if ((updateFooterDto.imageOne = updateFooterDto.imageOne)) {
+    if (updateFooterDto.imageOne) {
       updateFooterDto.imageOne = updateFooterDto.imageOne.toLowerCase();
     }
-    if ((updateFooterDto.imageTwo = updateFooterDto.imageTwo)) {
+    if (updateFooterDto.imageTwo) {
       updateFooterDto.imageTwo = updateFooterDto.imageTwo.toLowerCase();
     }
-    if ((updateFooterDto.imageThree = updateFooterDto.imageThree)) {
+    if (updateFooterDto.imageThree) {
       updateFooterDto.imageThree = updateFooterDto.imageThree.toLowerCase();
     }
-    if ((updateFooterDto.imageFor = updateFooterDto.imageFor)) {
+    if (updateFooterDto.imageFor) {
       updateFooterDto.imageFor = updateFooterDto.imageFor.toLowerCase();
     }
-    if ((updateFooterDto.imageFive = updateFooterDto.imageFive)) {
+    if (updateFooterDto.imageFive) {
       updateFooterDto.imageFive = updateFooterDto.imageFive.toLowerCase();
     }
-    if ((updateFooterDto.imageSixt = updateFooterDto.imageSixt)) {
+    if (updateFooterDto.imageSixt) {
       updateFooterDto.imageSixt = updateFooterDto.imageSixt.toLowerCase();
     }
-    if ((updateFooterDto.developedBy = updateFooterDto.developedBy)) {
+    if (updateFooterDto.developedBy) {
       updateFooterDto.developedBy = updateFooterDto.developedBy.toLowerCase();
     }
     try {
-      await footer.updateOne(updateFooterDto);
-
+      const updatedFooter = await this.footerModel.findByIdAndUpdate(
+        footer._id,
+        updateFooterDto,
+        { new: true },
+      );
+      if (!updatedFooter) {
+        throw new NotFoundException(`footer with id ${term} not found`);
+      }
       return { ...footer.toJSON(), ...updateFooterDto };
     } catch (error) {
       this.handleExceptions(error);
@@ -827,13 +913,10 @@ export class PortfoliosService {
   // ***************Works&&&&&&&&&&&&&&&&&&&&&&&&&
   ////////////////////////////////////
   async createWorks(createWorksDto: CreateWorksDto) {
-    createWorksDto.title = createWorksDto.title.toLocaleLowerCase();
-    createWorksDto.tag = createWorksDto.tag.toLocaleLowerCase();
     createWorksDto.image = createWorksDto.image.toLocaleLowerCase();
     createWorksDto.date = createWorksDto.date.toLocaleLowerCase();
+    createWorksDto.title = createWorksDto.title.toLocaleLowerCase();
     createWorksDto.description = createWorksDto.description.toLocaleLowerCase();
-    createWorksDto.subdescription =
-      createWorksDto.subdescription.toLocaleLowerCase();
     createWorksDto.tags = createWorksDto.tags.toLocaleLowerCase();
 
     try {
@@ -844,16 +927,8 @@ export class PortfoliosService {
       this.handleExceptions(error);
     }
   }
-  async findAllWorks(paginationDto: PaginationDto) {
-    const { limit = this.defaultLimit, offset = 0 } = paginationDto;
-
-    return this.worksModel
-      .find()
-      .limit(limit)
-      .skip(offset)
-      .sort({ no: 1 })
-      .select(`-__v`)
-      .exec();
+  async findWorks() {
+    return this.worksModel.findOne().select(`-__v`).exec();
   }
 
   async findOneWorks(term: string) {
@@ -878,37 +953,35 @@ export class PortfoliosService {
   async updateWorks(term: string, updateWorksDto: UpdateWorksDto) {
     const works = await this.findOneWorks(term);
 
-    if ((updateWorksDto.title = updateWorksDto.title)) {
-      updateWorksDto.title = updateWorksDto.title.toLowerCase();
-    }
-    if ((updateWorksDto.tag = updateWorksDto.tag)) {
-      updateWorksDto.tag = updateWorksDto.tag.toLowerCase();
-    }
-    if ((updateWorksDto.image = updateWorksDto.image)) {
+    if (updateWorksDto.image) {
       updateWorksDto.image = updateWorksDto.image.toLowerCase();
     }
-    if ((updateWorksDto.date = updateWorksDto.date)) {
+    if (updateWorksDto.date) {
       updateWorksDto.date = updateWorksDto.date.toLowerCase();
     }
-    if ((updateWorksDto.description = updateWorksDto.description)) {
+    if (updateWorksDto.title) {
+      updateWorksDto.title = updateWorksDto.title.toLowerCase();
+    }
+    if (updateWorksDto.description) {
       updateWorksDto.description = updateWorksDto.description.toLowerCase();
     }
-    if ((updateWorksDto.subdescription = updateWorksDto.subdescription)) {
-      updateWorksDto.subdescription =
-        updateWorksDto.subdescription.toLowerCase();
-    }
-    if ((updateWorksDto.tags = updateWorksDto.tags)) {
+    if (updateWorksDto.tags) {
       updateWorksDto.tags = updateWorksDto.tags.toLowerCase();
     }
     try {
-      await works.updateOne(updateWorksDto);
-
+      const updatedWorks = await this.worksModel.findByIdAndUpdate(
+        works._id,
+        updateWorksDto,
+        { new: true },
+      );
+      if (!updatedWorks) {
+        throw new NotFoundException(`work with id ${term} not found`);
+      }
       return { ...works.toJSON(), ...updateWorksDto };
     } catch (error) {
       this.handleExceptions(error);
     }
   }
-
   async removeWorks(id: string) {
     const { deletedCount } = await this.worksModel.deleteOne({ _id: id });
     if (deletedCount == 0)
@@ -932,17 +1005,8 @@ export class PortfoliosService {
     }
   }
 
-  async findAllExperience(paginationDto: PaginationDto) {
-    const { limit = this.defaultLimit, offset = 0 } = paginationDto;
-
-    return this.experienceModel
-      .find()
-      .populate('works')
-      .limit(limit)
-      .skip(offset)
-      .sort({ no: 1 })
-      .select(`-__v`)
-      .exec();
+  async findExperience() {
+    return this.experienceModel.findOne().populate('works').exec();
   }
 
   async findOneExperience(term: string) {
@@ -957,14 +1021,12 @@ export class PortfoliosService {
     }
     if (!experiences) {
       experiences = await this.experienceModel
-        .findOne({
-          title: term.toLowerCase().trim(),
-        })
+        .findOne({ title: term.toLowerCase().trim() })
         .populate('works');
     }
     if (!experiences)
       throw new NotFoundException(
-        `experience with id, typeContenu or no ${term} not fund`,
+        `experience with id, typeContenu or no ${term} not found`,
       );
     return experiences;
   }
@@ -999,6 +1061,25 @@ export class PortfoliosService {
       throw new BadRequestException(`experience with id "${id}"not found`);
     return;
   }
+  ////////////////////ADDWORKtoEXPERIENCE/////////////
+  async addWorkToExperience(experienceId: string, workId: string) {
+    const experience = await this.experienceModel.findById(experienceId);
+    if (!experience) {
+      throw new NotFoundException(
+        `Experience with id ${experienceId} not found`,
+      );
+    }
+
+    const work = await this.worksModel.findById(workId);
+    if (!work) {
+      throw new NotFoundException(`Work with id ${workId} not found`);
+    }
+
+    experience.works.push(work._id);
+    await experience.save();
+    return experience;
+  }
+
   private handleExceptions(error: any) {
     if (error.code === 11000) {
       throw new BadRequestException(
