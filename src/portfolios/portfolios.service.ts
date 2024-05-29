@@ -6,7 +6,6 @@ import {
 } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, isValidObjectId } from 'mongoose';
-import { PaginationDto } from 'src/common/dto/Paginationdto';
 import { ConfigService } from '@nestjs/config';
 import { About } from './entities/about.entity';
 import { CreateAboutDto } from './dto/create-about.dto';
@@ -70,17 +69,6 @@ export class PortfoliosService {
   // ***************about&&&&&&&&&&&&&&&&&&&&&&&&&
   ////////////////////////////////////
   async createAbout(createAboutDto: CreateAboutDto) {
-    createAboutDto.title = createAboutDto.title.toLocaleLowerCase();
-    createAboutDto.subTitle = createAboutDto.subTitle.toLocaleLowerCase();
-    createAboutDto.description = createAboutDto.description.toLocaleLowerCase();
-    createAboutDto.subDescription =
-      createAboutDto.subDescription.toLocaleLowerCase();
-    createAboutDto.github = createAboutDto.github.toLocaleLowerCase();
-    createAboutDto.email = createAboutDto.email.toLocaleLowerCase();
-    createAboutDto.tel = createAboutDto.tel.toLocaleLowerCase();
-
-    createAboutDto.downloadCv = createAboutDto.downloadCv.toLocaleLowerCase();
-
     try {
       const about = new this.aboutModel(createAboutDto);
       const savedAbout = await about.save();
@@ -117,32 +105,6 @@ export class PortfoliosService {
   async updateAbout(term: string, updateAboutDto: UpdateAboutDto) {
     const about = await this.findOneAbout(term);
 
-    if (updateAboutDto.title) {
-      updateAboutDto.title = updateAboutDto.title.toLowerCase();
-    }
-    if (updateAboutDto.subTitle) {
-      updateAboutDto.subTitle = updateAboutDto.subTitle.toLowerCase();
-    }
-    if (updateAboutDto.description) {
-      updateAboutDto.description = updateAboutDto.description.toLowerCase();
-    }
-    if (updateAboutDto.subDescription) {
-      updateAboutDto.subDescription =
-        updateAboutDto.subDescription.toLowerCase();
-    }
-    if (updateAboutDto.github) {
-      updateAboutDto.github = updateAboutDto.github.toLowerCase();
-    }
-    if (updateAboutDto.email) {
-      updateAboutDto.email = updateAboutDto.email.toLowerCase();
-    }
-    if (updateAboutDto.tel) {
-      updateAboutDto.tel = updateAboutDto.tel.toLowerCase();
-    }
-    if (updateAboutDto.downloadCv) {
-      updateAboutDto.downloadCv = updateAboutDto.downloadCv.toLowerCase();
-    }
-
     try {
       const updatedAbout = await this.aboutModel.findByIdAndUpdate(
         about._id,
@@ -172,7 +134,7 @@ export class PortfoliosService {
     createPresentationDto.skillHeadline = createPresentationDto.skillHeadline;
     console.log('DTO después de la normalización:', createPresentationDto);
     try {
-      const presentation = new this.aboutModel(createPresentationDto);
+      const presentation = new this.presentationModel(createPresentationDto);
       const savedPresentation = await presentation.save();
 
       return savedPresentation;
@@ -247,63 +209,6 @@ export class PortfoliosService {
   // ***************services&&&&&&&&&&&&&&&&&&&&&&&&&
   ////////////////////////////////////
   async createService(createServiceDto: CreateServiceDto) {
-    createServiceDto.title = createServiceDto.title.toLocaleLowerCase();
-
-    createServiceDto.subTitle = createServiceDto.subTitle.toLocaleLowerCase();
-
-    createServiceDto.designTrendsImage =
-      createServiceDto.designTrendsImage.toLocaleLowerCase();
-
-    createServiceDto.designTrendsTitle =
-      createServiceDto.designTrendsTitle.toLocaleLowerCase();
-
-    createServiceDto.designTrendsSubTitle =
-      createServiceDto.designTrendsSubTitle.toLocaleLowerCase();
-
-    createServiceDto.pSDDesignImage =
-      createServiceDto.pSDDesignImage.toLocaleLowerCase();
-
-    createServiceDto.pSDDesignTitle =
-      createServiceDto.pSDDesignTitle.toLocaleLowerCase();
-
-    createServiceDto.pSDDesignSubTitle =
-      createServiceDto.pSDDesignSubTitle.toLocaleLowerCase();
-
-    createServiceDto.customerSupportImage =
-      createServiceDto.customerSupportImage.toLocaleLowerCase();
-
-    createServiceDto.customerSupportTitle =
-      createServiceDto.customerSupportTitle.toLocaleLowerCase();
-
-    createServiceDto.customerSupportSubTitle =
-      createServiceDto.customerSupportSubTitle.toLocaleLowerCase();
-
-    createServiceDto.webDevelopmentImage =
-      createServiceDto.webDevelopmentImage.toLocaleLowerCase();
-
-    createServiceDto.webDevelopmentTitle =
-      createServiceDto.webDevelopmentTitle.toLocaleLowerCase();
-
-    createServiceDto.webDevelopmentSubTitle =
-      createServiceDto.webDevelopmentSubTitle.toLocaleLowerCase();
-
-    createServiceDto.fullyResponsiveImage =
-      createServiceDto.fullyResponsiveImage.toLocaleLowerCase();
-
-    createServiceDto.fullyResponsiveTitle =
-      createServiceDto.fullyResponsiveTitle.toLocaleLowerCase();
-
-    createServiceDto.fullyResponsiveSubTitle =
-      createServiceDto.fullyResponsiveSubTitle.toLocaleLowerCase();
-
-    createServiceDto.brandingImage =
-      createServiceDto.brandingImage.toLocaleLowerCase();
-
-    createServiceDto.brandingTitle =
-      createServiceDto.brandingTitle.toLocaleLowerCase();
-
-    createServiceDto.brandingSubTitle =
-      createServiceDto.brandingSubTitle.toLocaleLowerCase();
     try {
       const service = new this.serviceModel(createServiceDto);
       const savedService = await service.save();
@@ -340,85 +245,6 @@ export class PortfoliosService {
   async updateService(term: string, updateServiceDto: UpdateServiceDto) {
     const service = await this.findOneService(term);
 
-    if (updateServiceDto.title) {
-      updateServiceDto.title = updateServiceDto.title.toLowerCase();
-    }
-    if (updateServiceDto.subTitle) {
-      updateServiceDto.subTitle = updateServiceDto.subTitle.toLowerCase();
-    }
-    if (updateServiceDto.designTrendsImage) {
-      updateServiceDto.designTrendsImage =
-        updateServiceDto.designTrendsImage.toLowerCase();
-    }
-    if (updateServiceDto.designTrendsTitle) {
-      updateServiceDto.designTrendsTitle =
-        updateServiceDto.designTrendsTitle.toLowerCase();
-    }
-    if (updateServiceDto.designTrendsSubTitle) {
-      updateServiceDto.designTrendsSubTitle =
-        updateServiceDto.designTrendsSubTitle.toLowerCase();
-    }
-    if (updateServiceDto.pSDDesignImage) {
-      updateServiceDto.pSDDesignImage =
-        updateServiceDto.pSDDesignImage.toLowerCase();
-    }
-    if (updateServiceDto.pSDDesignTitle) {
-      updateServiceDto.pSDDesignTitle =
-        updateServiceDto.pSDDesignTitle.toLowerCase();
-    }
-    if (updateServiceDto.pSDDesignSubTitle) {
-      updateServiceDto.pSDDesignSubTitle =
-        updateServiceDto.pSDDesignSubTitle.toLowerCase();
-    }
-    if (updateServiceDto.customerSupportImage) {
-      updateServiceDto.customerSupportImage =
-        updateServiceDto.customerSupportImage.toLowerCase();
-    }
-    if (updateServiceDto.customerSupportTitle) {
-      updateServiceDto.customerSupportTitle =
-        updateServiceDto.customerSupportTitle.toLowerCase();
-    }
-    if (updateServiceDto.customerSupportSubTitle) {
-      updateServiceDto.customerSupportSubTitle =
-        updateServiceDto.customerSupportSubTitle.toLowerCase();
-    }
-    if (updateServiceDto.webDevelopmentImage) {
-      updateServiceDto.webDevelopmentImage =
-        updateServiceDto.webDevelopmentImage.toLowerCase();
-    }
-    if (updateServiceDto.webDevelopmentTitle) {
-      updateServiceDto.webDevelopmentTitle =
-        updateServiceDto.webDevelopmentTitle.toLowerCase();
-    }
-    if (updateServiceDto.webDevelopmentSubTitle) {
-      updateServiceDto.webDevelopmentSubTitle =
-        updateServiceDto.webDevelopmentSubTitle.toLowerCase();
-    }
-    if (updateServiceDto.fullyResponsiveImage) {
-      updateServiceDto.fullyResponsiveImage =
-        updateServiceDto.fullyResponsiveImage.toLowerCase();
-    }
-    if (updateServiceDto.fullyResponsiveTitle) {
-      updateServiceDto.fullyResponsiveTitle =
-        updateServiceDto.fullyResponsiveTitle.toLowerCase();
-    }
-    if (updateServiceDto.fullyResponsiveSubTitle) {
-      updateServiceDto.fullyResponsiveSubTitle =
-        updateServiceDto.fullyResponsiveSubTitle.toLowerCase();
-    }
-    if (updateServiceDto.brandingImage) {
-      updateServiceDto.brandingImage =
-        updateServiceDto.brandingImage.toLowerCase();
-    }
-    if (updateServiceDto.brandingTitle) {
-      updateServiceDto.brandingTitle =
-        updateServiceDto.brandingTitle.toLowerCase();
-    }
-    if (updateServiceDto.brandingSubTitle) {
-      updateServiceDto.brandingSubTitle =
-        updateServiceDto.brandingSubTitle.toLowerCase();
-    }
-
     try {
       const updatedService = await this.serviceModel.findByIdAndUpdate(
         service._id,
@@ -443,14 +269,6 @@ export class PortfoliosService {
   // ***************Nav&&&&&&&&&&&&&&&&&&&&&&&&&
   ////////////////////////////////////
   async createNav(createNavDto: CreateNavDto) {
-    createNavDto.nom = createNavDto.nom.toLocaleLowerCase();
-    createNavDto.avialable = createNavDto.avialable.toLocaleLowerCase();
-    createNavDto.home = createNavDto.home.toLocaleLowerCase();
-    createNavDto.about = createNavDto.about.toLocaleLowerCase();
-    createNavDto.services = createNavDto.services.toLocaleLowerCase();
-    createNavDto.experience = createNavDto.experience.toLocaleLowerCase();
-    createNavDto.formation = createNavDto.formation.toLocaleLowerCase();
-    createNavDto.contact = createNavDto.contact.toLocaleLowerCase();
     try {
       const nav = new this.navModel(createNavDto);
       const savedNav = await nav.save();
@@ -487,30 +305,6 @@ export class PortfoliosService {
   async updateNav(term: string, updateNavDto: UpdateNavDto) {
     const nav = await this.findOneNav(term);
 
-    if (updateNavDto.nom) {
-      updateNavDto.nom = updateNavDto.nom.toLowerCase();
-    }
-    if (updateNavDto.avialable) {
-      updateNavDto.avialable = updateNavDto.avialable.toLowerCase();
-    }
-    if (updateNavDto.home) {
-      updateNavDto.home = updateNavDto.home.toLowerCase();
-    }
-    if (updateNavDto.about) {
-      updateNavDto.about = updateNavDto.about.toLowerCase();
-    }
-    if (updateNavDto.services) {
-      updateNavDto.services = updateNavDto.services.toLowerCase();
-    }
-    if (updateNavDto.experience) {
-      updateNavDto.experience = updateNavDto.experience.toLowerCase();
-    }
-    if (updateNavDto.formation) {
-      updateNavDto.formation = updateNavDto.formation.toLowerCase();
-    }
-    if (updateNavDto.contact) {
-      updateNavDto.contact = updateNavDto.contact.toLowerCase();
-    }
     try {
       const updatedNav = await this.navModel.findByIdAndUpdate(
         nav._id,
@@ -535,9 +329,6 @@ export class PortfoliosService {
   // ***************Hire&&&&&&&&&&&&&&&&&&&&&&&&&
   ////////////////////////////////////
   async createHire(createHireDto: CreateHireDto) {
-    createHireDto.goToWork = createHireDto.goToWork.toLocaleLowerCase();
-    createHireDto.available = createHireDto.available.toLocaleLowerCase();
-    createHireDto.hireMe = createHireDto.hireMe.toLocaleLowerCase();
     try {
       const hire = new this.hireModel(createHireDto);
       const savedHire = await hire.save();
@@ -574,15 +365,6 @@ export class PortfoliosService {
   async updateHire(term: string, updateHireDto: UpdateHireDto) {
     const hire = await this.findOneHire(term);
 
-    if (updateHireDto.goToWork) {
-      updateHireDto.goToWork = updateHireDto.goToWork.toLowerCase();
-    }
-    if (updateHireDto.available) {
-      updateHireDto.available = updateHireDto.available.toLowerCase();
-    }
-    if (updateHireDto.hireMe) {
-      updateHireDto.hireMe = updateHireDto.hireMe.toLowerCase();
-    }
     try {
       const updatedHire = await this.hireModel.findByIdAndUpdate(
         hire._id,
@@ -608,35 +390,18 @@ export class PortfoliosService {
   // ***************Formation&&&&&&&&&&&&&&&&&&&&&&&&&
   ////////////////////////////////////
   async createFormation(createFormationDto: CreateFormationDto) {
-    createFormationDto.title = createFormationDto.title.toLocaleLowerCase();
-    createFormationDto.prevNext =
-      createFormationDto.prevNext.toLocaleLowerCase();
-    createFormationDto.tag = createFormationDto.tag.toLocaleLowerCase();
-    createFormationDto.image = createFormationDto.image.toLocaleLowerCase();
-    createFormationDto.date = createFormationDto.date.toLocaleLowerCase();
-    createFormationDto.description =
-      createFormationDto.description.toLocaleLowerCase();
-    createFormationDto.subdescription =
-      createFormationDto.subdescription.toLocaleLowerCase();
-    createFormationDto.tags = createFormationDto.tags.toLocaleLowerCase();
     try {
       const formations = await this.formationModel.create(createFormationDto);
-      return formations;
+      console.log(formations);
+      const savedformations = await formations.save();
+      return savedformations;
     } catch (error) {
       this.handleExceptions(error);
     }
   }
 
-  async findAllFormation(paginationDto: PaginationDto) {
-    const { limit = this.defaultLimit, offset = 0 } = paginationDto;
-
-    return this.formationModel
-      .find()
-      .limit(limit)
-      .skip(offset)
-      .sort({ no: 1 })
-      .select(`-__v`)
-      .exec();
+  async findAllFormation() {
+    return this.formationModel.find().select(`-__v`).exec();
   }
 
   async findOneFormation(term: string) {
@@ -661,61 +426,30 @@ export class PortfoliosService {
   async updateFormation(term: string, updateFormationDto: UpdateFormationDto) {
     const formation = await this.findOneFormation(term);
 
-    if ((updateFormationDto.title = updateFormationDto.title)) {
-      updateFormationDto.title = updateFormationDto.title.toLowerCase();
-    }
-    if ((updateFormationDto.prevNext = updateFormationDto.prevNext)) {
-      updateFormationDto.prevNext = updateFormationDto.prevNext.toLowerCase();
-    }
-    if ((updateFormationDto.tag = updateFormationDto.tag)) {
-      updateFormationDto.tag = updateFormationDto.tag.toLowerCase();
-    }
-    if ((updateFormationDto.image = updateFormationDto.image)) {
-      updateFormationDto.image = updateFormationDto.image.toLowerCase();
-    }
-    if ((updateFormationDto.date = updateFormationDto.date)) {
-      updateFormationDto.date = updateFormationDto.date.toLowerCase();
-    }
-    if ((updateFormationDto.description = updateFormationDto.description)) {
-      updateFormationDto.description =
-        updateFormationDto.description.toLowerCase();
-    }
-    if (
-      (updateFormationDto.subdescription = updateFormationDto.subdescription)
-    ) {
-      updateFormationDto.subdescription =
-        updateFormationDto.subdescription.toLowerCase();
-    }
-    if ((updateFormationDto.tags = updateFormationDto.tags)) {
-      updateFormationDto.tags = updateFormationDto.tags.toLowerCase();
-    }
     try {
-      await formation.updateOne(updateFormationDto);
-
+      const updatedFormation = await this.formationModel.findByIdAndUpdate(
+        formation._id,
+        updateFormationDto,
+        { new: true },
+      );
+      if (!updatedFormation) {
+        throw new NotFoundException(`formation with id ${term} not found`);
+      }
       return { ...formation.toJSON(), ...updateFormationDto };
     } catch (error) {
       this.handleExceptions(error);
     }
   }
-
-  async removeFormation(id: string) {
+  async deleteFormation(id: string) {
     const { deletedCount } = await this.formationModel.deleteOne({ _id: id });
     if (deletedCount == 0)
-      throw new BadRequestException(`formation with id "${id}"not found`);
+      throw new BadRequestException(`Formation with id "${id}"not found`);
     return;
   }
   ////////////////////////////////////////////////
   // ***************Form&&&&&&&&&&&&&&&&&&&&&&&&&
   ////////////////////////////////////
   async createForm(createFormDto: CreateFormDto) {
-    createFormDto.title = createFormDto.title.toLocaleLowerCase();
-    createFormDto.subTitle = createFormDto.subTitle.toLocaleLowerCase();
-    createFormDto.name = createFormDto.name.toLocaleLowerCase();
-    createFormDto.email = createFormDto.email.toLocaleLowerCase();
-    createFormDto.subject = createFormDto.subject.toLocaleLowerCase();
-    createFormDto.message = createFormDto.message.toLocaleLowerCase();
-    createFormDto.sendMessage = createFormDto.sendMessage.toLocaleLowerCase();
-
     try {
       const form = new this.formModel(createFormDto);
       const savedForm = await form.save();
@@ -752,27 +486,6 @@ export class PortfoliosService {
   async updateForm(term: string, updateFormDto: UpdateFormDto) {
     const form = await this.findOneForm(term);
 
-    if (updateFormDto.title) {
-      updateFormDto.title = updateFormDto.title.toLowerCase();
-    }
-    if (updateFormDto.subTitle) {
-      updateFormDto.subTitle = updateFormDto.subTitle.toLowerCase();
-    }
-    if (updateFormDto.name) {
-      updateFormDto.name = updateFormDto.name.toLowerCase();
-    }
-    if (updateFormDto.email) {
-      updateFormDto.email = updateFormDto.email.toLowerCase();
-    }
-    if (updateFormDto.subject) {
-      updateFormDto.subject = updateFormDto.subject.toLowerCase();
-    }
-    if (updateFormDto.message) {
-      updateFormDto.message = updateFormDto.message.toLowerCase();
-    }
-    if (updateFormDto.sendMessage) {
-      updateFormDto.sendMessage = updateFormDto.sendMessage.toLowerCase();
-    }
     try {
       const updatedForm = await this.formModel.findByIdAndUpdate(
         form._id,
@@ -797,22 +510,6 @@ export class PortfoliosService {
   // ***************Footer&&&&&&&&&&&&&&&&&&&&&&&&&
   ////////////////////////////////////
   async createFooter(createFooterDto: CreateFooterDto) {
-    createFooterDto.imageAdress =
-      createFooterDto.imageAdress.toLocaleLowerCase();
-    createFooterDto.adrese = createFooterDto.adrese.toLocaleLowerCase();
-    createFooterDto.imageTel = createFooterDto.imageTel.toLocaleLowerCase();
-    createFooterDto.numeroTel = createFooterDto.numeroTel.toLocaleLowerCase();
-    createFooterDto.imageEmail = createFooterDto.imageEmail.toLocaleLowerCase();
-    createFooterDto.email = createFooterDto.email.toLocaleLowerCase();
-    createFooterDto.imageOne = createFooterDto.imageOne.toLocaleLowerCase();
-    createFooterDto.imageTwo = createFooterDto.imageTwo.toLocaleLowerCase();
-    createFooterDto.imageThree = createFooterDto.imageThree.toLocaleLowerCase();
-    createFooterDto.imageFor = createFooterDto.imageFor.toLocaleLowerCase();
-    createFooterDto.imageFive = createFooterDto.imageFive.toLocaleLowerCase();
-    createFooterDto.imageSixt = createFooterDto.imageSixt.toLocaleLowerCase();
-    createFooterDto.developedBy =
-      createFooterDto.developedBy.toLocaleLowerCase();
-
     try {
       const footer = new this.footerModel(createFooterDto);
       const footerdAbout = await footer.save();
@@ -849,45 +546,6 @@ export class PortfoliosService {
   async updateFooter(term: string, updateFooterDto: UpdateFooterDto) {
     const footer = await this.findOneFooter(term);
 
-    if (updateFooterDto.imageAdress) {
-      updateFooterDto.imageAdress = updateFooterDto.imageAdress.toLowerCase();
-    }
-    if (updateFooterDto.adrese) {
-      updateFooterDto.adrese = updateFooterDto.adrese.toLowerCase();
-    }
-    if (updateFooterDto.imageTel) {
-      updateFooterDto.imageTel = updateFooterDto.imageTel.toLowerCase();
-    }
-    if (updateFooterDto.numeroTel) {
-      updateFooterDto.numeroTel = updateFooterDto.numeroTel.toLowerCase();
-    }
-    if (updateFooterDto.imageEmail) {
-      updateFooterDto.imageEmail = updateFooterDto.imageEmail.toLowerCase();
-    }
-    if (updateFooterDto.email) {
-      updateFooterDto.email = updateFooterDto.email.toLowerCase();
-    }
-    if (updateFooterDto.imageOne) {
-      updateFooterDto.imageOne = updateFooterDto.imageOne.toLowerCase();
-    }
-    if (updateFooterDto.imageTwo) {
-      updateFooterDto.imageTwo = updateFooterDto.imageTwo.toLowerCase();
-    }
-    if (updateFooterDto.imageThree) {
-      updateFooterDto.imageThree = updateFooterDto.imageThree.toLowerCase();
-    }
-    if (updateFooterDto.imageFor) {
-      updateFooterDto.imageFor = updateFooterDto.imageFor.toLowerCase();
-    }
-    if (updateFooterDto.imageFive) {
-      updateFooterDto.imageFive = updateFooterDto.imageFive.toLowerCase();
-    }
-    if (updateFooterDto.imageSixt) {
-      updateFooterDto.imageSixt = updateFooterDto.imageSixt.toLowerCase();
-    }
-    if (updateFooterDto.developedBy) {
-      updateFooterDto.developedBy = updateFooterDto.developedBy.toLowerCase();
-    }
     try {
       const updatedFooter = await this.footerModel.findByIdAndUpdate(
         footer._id,
@@ -913,12 +571,6 @@ export class PortfoliosService {
   // ***************Works&&&&&&&&&&&&&&&&&&&&&&&&&
   ////////////////////////////////////
   async createWorks(createWorksDto: CreateWorksDto) {
-    createWorksDto.image = createWorksDto.image.toLocaleLowerCase();
-    createWorksDto.date = createWorksDto.date.toLocaleLowerCase();
-    createWorksDto.title = createWorksDto.title.toLocaleLowerCase();
-    createWorksDto.description = createWorksDto.description.toLocaleLowerCase();
-    createWorksDto.tags = createWorksDto.tags.toLocaleLowerCase();
-
     try {
       const works = new this.worksModel(createWorksDto);
       const savedWorks = await works.save();
@@ -953,21 +605,6 @@ export class PortfoliosService {
   async updateWorks(term: string, updateWorksDto: UpdateWorksDto) {
     const works = await this.findOneWorks(term);
 
-    if (updateWorksDto.image) {
-      updateWorksDto.image = updateWorksDto.image.toLowerCase();
-    }
-    if (updateWorksDto.date) {
-      updateWorksDto.date = updateWorksDto.date.toLowerCase();
-    }
-    if (updateWorksDto.title) {
-      updateWorksDto.title = updateWorksDto.title.toLowerCase();
-    }
-    if (updateWorksDto.description) {
-      updateWorksDto.description = updateWorksDto.description.toLowerCase();
-    }
-    if (updateWorksDto.tags) {
-      updateWorksDto.tags = updateWorksDto.tags.toLowerCase();
-    }
     try {
       const updatedWorks = await this.worksModel.findByIdAndUpdate(
         works._id,
@@ -988,59 +625,51 @@ export class PortfoliosService {
       throw new BadRequestException(`work with id "${id}"not found`);
     return;
   }
-  ////////////////////////////////////////////////
-  // ***************Experience&&&&&&&&&&&&&&&&&&&&&&&&&
-  ////////////////////////////////////
-  async createExperience(createExperienceDto: CreateExperienceDto) {
-    createExperienceDto.title = createExperienceDto.title.toLocaleLowerCase();
-    createExperienceDto.subTitle =
-      createExperienceDto.subTitle.toLocaleLowerCase();
+  // ////////////////////////////////////////////////
+  //   // ***************Experience&&&&&&&&&&&&&&&&&&&&&&&&&
+  //   ////////////////////////////////////
 
+  async createExperience(createExperienceDto: CreateExperienceDto) {
     try {
       const experience = new this.experienceModel(createExperienceDto);
+      console.log(experience);
       const savedExperience = await experience.save();
+
       return savedExperience;
     } catch (error) {
       this.handleExceptions(error);
     }
   }
-
-  async findExperience() {
-    return this.experienceModel.findOne().populate('works').exec();
+  async findAllExperience() {
+    return this.experienceModel.find().select(`-__v`).exec();
   }
 
   async findOneExperience(term: string) {
     let experiences: Experience;
     if (!isNaN(+term)) {
-      experiences = await this.experienceModel
-        .findOne({ no: term })
-        .populate('works');
+      experiences = await this.experienceModel.findOne({ no: term });
     }
     if (!experiences && isValidObjectId(term)) {
-      experiences = await this.experienceModel.findById(term).populate('works');
+      experiences = await this.experienceModel.findById(term);
     }
     if (!experiences) {
-      experiences = await this.experienceModel
-        .findOne({ title: term.toLowerCase().trim() })
-        .populate('works');
+      experiences = await this.experienceModel.findOne({
+        title: term.toLowerCase().trim(),
+      });
     }
     if (!experiences)
       throw new NotFoundException(
-        `experience with id, typeContenu or no ${term} not found`,
+        `experience with id, typeContenu or no ${term} not fund`,
       );
     return experiences;
   }
+
   async updateExperience(
     term: string,
     updateExperienceDto: UpdateExperienceDto,
   ) {
     const experience = await this.findOneExperience(term);
-    if (updateExperienceDto.title) {
-      updateExperienceDto.title = updateExperienceDto.title.toLowerCase();
-    }
-    if (updateExperienceDto.subTitle) {
-      updateExperienceDto.subTitle = updateExperienceDto.subTitle.toLowerCase();
-    }
+
     try {
       const updatedExperience = await this.experienceModel.findByIdAndUpdate(
         experience._id,
@@ -1048,37 +677,24 @@ export class PortfoliosService {
         { new: true },
       );
       if (!updatedExperience) {
-        throw new NotFoundException(`Experience with id ${term} not found`);
+        throw new NotFoundException(`experience with id ${term} not found`);
       }
       return { ...experience.toJSON(), ...updateExperienceDto };
     } catch (error) {
       this.handleExceptions(error);
     }
   }
-  async removeExperience(id: string) {
+
+  async deleteExperience(id: string) {
     const { deletedCount } = await this.experienceModel.deleteOne({ _id: id });
     if (deletedCount == 0)
       throw new BadRequestException(`experience with id "${id}"not found`);
     return;
   }
-  ////////////////////ADDWORKtoEXPERIENCE/////////////
-  async addWorkToExperience(experienceId: string, workId: string) {
-    const experience = await this.experienceModel.findById(experienceId);
-    if (!experience) {
-      throw new NotFoundException(
-        `Experience with id ${experienceId} not found`,
-      );
-    }
-
-    const work = await this.worksModel.findById(workId);
-    if (!work) {
-      throw new NotFoundException(`Work with id ${workId} not found`);
-    }
-
-    experience.works.push(work._id);
-    await experience.save();
-    return experience;
-  }
+  //////////////////handleExceptions////////////////
+  //////////////////handleExceptions////////////////
+  //////////////////handleExceptions////////////////
+  //////////////////handleExceptions////////////////
 
   private handleExceptions(error: any) {
     if (error.code === 11000) {
@@ -1092,3 +708,40 @@ export class PortfoliosService {
     );
   }
 }
+// // ///////////////Experience/////////////////////
+// async create(createExperienceDto: CreateExperienceDto): Promise<Experience> {
+//   const createdExperience = new this.experienceModel(createExperienceDto);
+//   return createdExperience.save();
+// }
+
+// async findAll(): Promise<Experience[]> {
+//   return this.experienceModel.find().exec();
+// }
+
+// async findOne(id: string): Promise<Experience> {
+//   const experience = await this.experienceModel.findById(id).exec();
+//   if (!experience) {
+//     throw new NotFoundException(`Experience with ID ${id} not found`);
+//   }
+//   return experience;
+// }
+
+// async update(
+//   id: string,
+//   updateExperienceDto: UpdateExperienceDto,
+// ): Promise<Experience> {
+//   const updatedExperience = await this.experienceModel
+//     .findByIdAndUpdate(id, updateExperienceDto, { new: true })
+//     .exec();
+//   if (!updatedExperience) {
+//     throw new NotFoundException(`Experience with ID ${id} not found`);
+//   }
+//   return updatedExperience;
+// }
+
+// async delete(id: string): Promise<void> {
+//   const result = await this.experienceModel.findByIdAndDelete(id).exec();
+//   if (!result) {
+//     throw new NotFoundException(`Experience with ID ${id} not found`);
+//   }
+// }

@@ -1,32 +1,49 @@
-import { IsString, MinLength, IsInt, IsPositive, Min } from 'class-validator';
+import {
+  IsPositive,
+  IsString,
+  IsArray,
+  IsNotEmpty,
+  IsDate,
+  IsInt,
+  Min,
+  ValidateNested,
+  IsOptional,
+} from 'class-validator';
+import { Type } from 'class-transformer';
+import { ThumbnailDto } from './thumbnail-experience.dto';
 
 export class CreateFormationDto {
   @IsInt()
   @IsPositive()
   @Min(1)
   no: number;
+
   @IsString()
-  @MinLength(1)
+  @IsNotEmpty()
   title: string;
+
+  @IsDate()
+  @IsNotEmpty()
+  date: Date;
+
+  @IsArray()
+  @IsNotEmpty()
+  tags: string[];
+
   @IsString()
-  @MinLength(1)
-  prevNext: string;
+  @IsNotEmpty()
+  summary: string;
+
+  @ValidateNested()
+  @Type(() => ThumbnailDto)
+  @IsNotEmpty()
+  thumbnail: ThumbnailDto;
+
   @IsString()
-  @MinLength(1)
-  tag: string;
+  @IsNotEmpty()
+  content: string;
+
+  @IsOptional()
   @IsString()
-  @MinLength(1)
-  image: string;
-  @IsString()
-  @MinLength(1)
-  date: string;
-  @IsString()
-  @MinLength(1)
-  description: string;
-  @IsString()
-  @MinLength(1)
-  subdescription: string;
-  @IsString()
-  @MinLength(1)
-  tags: string;
+  prevNext?: string;
 }

@@ -4,56 +4,36 @@ import { Document } from 'mongoose';
 
 @Schema()
 export class Formation extends Document {
-  @Prop({
-    unique: true,
-    index: true,
-  })
+  @Prop({ unique: true, index: true })
   no: number;
-  @Prop({
-    unique: true,
-    index: true,
-  })
+
+  @Prop({ unique: true, index: true })
   title: string;
 
-  @Prop({
-    unique: true,
-    index: true,
-  })
-  prevNext: string;
-  @Prop({
-    unique: true,
-    index: true,
-  })
-  tag: string;
-  @Prop({
-    unique: true,
-    index: true,
-  })
-  image: string;
+  @Prop({ required: true })
+  date: Date;
 
-  @Prop({
-    unique: true,
-    index: true,
-  })
-  date: string;
+  @Prop({ type: [String], required: true })
+  tags: string[];
 
-  @Prop({
-    unique: true,
-    index: true,
-  })
-  description: string;
+  @Prop({ required: true })
+  summary: string;
 
-  @Prop({
-    unique: true,
-    index: true,
-  })
-  subdescription: string;
+  @Prop({ type: Object, required: true })
+  thumbnail: {
+    url: string;
+    blurData: string;
+    metadata: {
+      width: number;
+      height: number;
+    };
+  };
 
-  @Prop({
-    unique: true,
-    index: true,
-  })
-  tags: string;
+  @Prop({ required: true })
+  content: string;
+
+  @Prop()
+  prevNext?: string;
 }
 
 export const FormationSchema = SchemaFactory.createForClass(Formation);
