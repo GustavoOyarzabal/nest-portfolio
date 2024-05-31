@@ -43,6 +43,12 @@ export class About extends Document {
     unique: true,
     index: true,
   })
+  gitLab: string;
+
+  @Prop({
+    unique: true,
+    index: true,
+  })
   email: string;
 
   @Prop({

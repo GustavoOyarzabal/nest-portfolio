@@ -22,6 +22,9 @@ export class CreateAboutDto {
   github: string;
   @IsString()
   @MinLength(1)
+  gitLab: string;
+  @IsString()
+  @MinLength(1)
   email: string;
   @IsString()
   @MinLength(1)
