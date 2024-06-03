@@ -10,13 +10,14 @@ services:
       MONGODB_DATABASE: portfolios_portfolio
     volumes:
       - ./mongo:/data/db
+
   app:
     build: .
     restart: always
     ports:
-      - "3001:3001"
+      - "3002:3002"
     environment:
-      PORT: 3001
+      PORT: 3002
       MONGODB: mongodb://db:27017/portfolios_portfolio
     depends_on:
       - db
