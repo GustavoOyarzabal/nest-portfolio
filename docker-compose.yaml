@@ -15,9 +15,9 @@ services:
     build: .
     restart: always
     ports:
-      - "3003:3003"
+      - "3002:3002"
     environment:
-      PORT: 3003
+      PORT: 3002
       MONGODB: mongodb://db:27017/portfolios_portfolio
     depends_on:
       - db

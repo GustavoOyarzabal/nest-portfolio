@@ -25,7 +25,7 @@ RUN [ -e /usr/local/bin/nest ] || ln -s /usr/src/app/node_modules/@nestjs/cli/bi
 # build 
 RUN pnpm run build
 
-EXPOSE 3003
+EXPOSE 3002
 
 CMD ["pnpm", "run", "start:prod"]
 
