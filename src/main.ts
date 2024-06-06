@@ -17,7 +17,7 @@ async function bootstrap() {
   );
   // Habilitar CORS
   app.enableCors({
-    origin: 'gustavofront.vercel.app', // Permitir solicitudes desde este origen
+    origin: ' front-profolio.vercel.app ', // Permitir solicitudes desde este origen
     credentials: true,
   });
 
