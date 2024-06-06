@@ -19,13 +19,14 @@ async function bootstrap() {
   // Habilitar CORS
   app.enableCors({
     origin: [
+      // 'http://localhost:3000',
       'https://www.gustavooyarzabal.com',
       'https://front-profolio.vercel.app',
     ],
     credentials: true,
   });
 
-  await app.listen(process.env.PORT || 3002);
-  console.log(`App running on port ${process.env.PORT || 3002}`);
+  await app.listen(process.env.PORT || 3003);
+  console.log(`App running on port ${process.env.PORT || 3003}`);
 }
 bootstrap();
