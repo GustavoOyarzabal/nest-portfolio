@@ -17,7 +17,7 @@ async function bootstrap() {
   );
   // Habilitar CORS
   app.enableCors({
-    origin: 'https://tu-frontend.vercel.app', // Permitir solicitudes desde este origen
+    origin: 'https://front-profolio.vercel.app/', // Permitir solicitudes desde este origen
     credentials: true,
   });
 
