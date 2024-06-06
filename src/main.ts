@@ -15,6 +15,7 @@ async function bootstrap() {
       },
     }),
   );
+
   // Habilitar CORS
   app.enableCors({
     origin: [
