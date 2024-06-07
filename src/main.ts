@@ -23,7 +23,10 @@ async function bootstrap() {
       'https://front-profolio.vercel.app',
       'https://gustavooyarzabal.com',
     ],
+    methods: 'GET,PUT,POST,DELETE,OPTIONS,PATCH,HEAD',
     credentials: true,
+    allowedHeaders:
+      'Origin, X-Api-Key, X-Requested-With, Content-Type, Accept, Authorization',
   });
 
   await app.listen(process.env.PORT || 3002, '0.0.0.0');
