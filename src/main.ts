@@ -21,6 +21,7 @@ async function bootstrap() {
     origin: [
       'https://www.gustavooyarzabal.com',
       'https://front-profolio.vercel.app',
+      'https://gustavooyarzabal.com',
     ],
     credentials: true,
   });
