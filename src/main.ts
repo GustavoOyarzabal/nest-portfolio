@@ -16,12 +16,13 @@ async function bootstrap() {
     }),
   );
 
-  // Habilitar CORS
   app.enableCors({
     origin: [
       'https://www.gustavooyarzabal.com',
       'https://front-profolio.vercel.app',
       'https://gustavooyarzabal.com',
+      'http://gustavooyarzabal.com',
+      'http://www.gustavooyarzabal.com',
     ],
     methods: 'GET,PUT,POST,DELETE,OPTIONS,PATCH,HEAD',
     credentials: true,
