@@ -19,7 +19,6 @@ async function bootstrap() {
   // Habilitar CORS
   app.enableCors({
     origin: [
-      // 'http://localhost:3000',
       'https://www.gustavooyarzabal.com',
       'https://front-profolio.vercel.app',
     ],
