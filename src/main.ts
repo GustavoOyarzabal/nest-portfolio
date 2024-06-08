@@ -19,7 +19,7 @@ async function bootstrap() {
   app.enableCors({
     origin: [
       'https://www.gustavooyarzabal.com/',
-      'https://www.gustavooyarzabal.com',
+      'https://gustavooyarzabal.com',
       // 'https://front-profolio.vercel.app',
       // 'https://gustavooyarzabal.com',
       // 'http://gustavooyarzabal.com',
